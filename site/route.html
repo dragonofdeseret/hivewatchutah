@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Route · HiveWatch Utah</title>
+<meta name="description" content="Send a tip to an agency: 911, Salt Lake City Police, SIAC, Utah County Tip A Cop, the FBI, or Utah Crime Stoppers. HiveWatch does not take tips.">
+<link rel="canonical" href="https://hivewatchutah.com/route.html">
+<meta property="og:url" content="https://hivewatchutah.com/route.html">
+<meta property="og:title" content="Route · HiveWatch Utah">
+<meta property="og:description" content="Send a tip to an agency: 911, Salt Lake City Police, SIAC, Utah County Tip A Cop, the FBI, or Utah Crime Stoppers. HiveWatch does not take tips.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HiveWatch Utah">
+<meta name="theme-color" content="#1C3450">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css?v=2026-10-23">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="strip" role="note">
+  <p><strong>In an emergency, call <a href="tel:911">911</a>.</strong> HiveWatch Utah does not replace emergency services.</p>
+</div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 3.2 18.5 6.8v6.9L12 17.3 5.5 13.7V6.8z"/><path d="M12 8.2 15 9.9v3.4L12 15.1 9 13.3V9.9z"/></svg></span>
+      <span><b>HiveWatch</b><small>Utah<span class="long"> · Wasatch Front</span></small></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="listen.html">Listen</a></li>
+        <li><a href="know.html">Know</a></li>
+        <li><a href="route.html" aria-current="page">Route</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">Route</p>
+      <h1>Route</h1>
+      <p class="lede">Tips go to agencies. This page does not collect them. If someone is in danger, skip the questions and call 911.</p>
+    </div>
+  </header>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>Hard rules</h2>
+      <ul class="rules">
+        <li><strong>911 first.</strong> If someone is being hurt, a fire is burning, or a crime is happening now, call 911. Do not open a form, and do not post first.</li>
+        <li><strong>No accusations.</strong> Do not name a person in public as the one who did it. A tip is not a finding, and this site is not a courtroom.</li>
+        <li><strong>No stranger photos as evidence.</strong> Do not post a photo of a person, a plate, a car, or a house as proof.</li>
+        <li><strong>No vigilante threads.</strong> Do not start a pile-on, a watch list, or a thread that asks strangers to follow someone.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="wrap">
+      <h2>Walk the doors in order</h2>
+      <p class="measure">Answer from the top. The first yes is the door. Your answers stay in this tab. Nothing is submitted.</p>
+      <form id="route-tree" class="card tree">
+        <div class="route-result">
+          <p id="route-outcome" class="note" role="status" aria-live="polite">Answer in order. The first yes is your door. If every answer is no, the last door is Crime Stoppers.</p>
+          <button class="btn secondary small route-reset" id="route-reset" type="button">Start over</button>
+        </div>
+        <fieldset>
+          <legend>1. Is someone being hurt, or is a crime happening now?</legend>
+          <div class="choices cols-2">
+            <label class="choice">
+              <input type="radio" name="q1" value="yes">
+              <span class="box"><b>Yes</b><small>Stop. Call 911. Do not keep going.</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="q1" value="no">
+              <span class="box"><b>No</b><small>It is not an emergency happening now. Continue.</small></span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>2. Is this a non-emergency report for Salt Lake City Police?</legend>
+          <div class="choices cols-2">
+            <label class="choice">
+              <input type="radio" name="q2" value="yes">
+              <span class="box"><b>Yes</b><small>Use the Salt Lake City online report.</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="q2" value="no">
+              <span class="box"><b>No</b><small>It is outside that city's report, or you are not sure. Continue.</small></span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>3. Is this a threat, or a tip you cannot place with one agency?</legend>
+          <div class="choices cols-2">
+            <label class="choice">
+              <input type="radio" name="q3" value="yes">
+              <span class="box"><b>Yes</b><small>Use the SIAC public report.</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="q3" value="no">
+              <span class="box"><b>No</b><small>You can tell where it belongs. Continue.</small></span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>4. Is this a Utah County matter?</legend>
+          <div class="choices cols-2">
+            <label class="choice">
+              <input type="radio" name="q4" value="yes">
+              <span class="box"><b>Yes</b><small>Use Utah County Sheriff Tip A Cop.</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="q4" value="no">
+              <span class="box"><b>No</b><small>Not Utah County. Continue.</small></span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>5. Is this a federal crime?</legend>
+          <div class="choices cols-2">
+            <label class="choice">
+              <input type="radio" name="q5" value="yes">
+              <span class="box"><b>Yes</b><small>Use FBI tips. Call 911 first if anyone is in danger.</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="q5" value="no">
+              <span class="box"><b>No</b><small>The last door is Crime Stoppers. The form may not be live.</small></span>
+            </label>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>The six doors</h2>
+      <p class="measure">Use them in this order when you are choosing by hand. The questions above follow the same order. HiveWatch cannot see what you type on the next site.</p>
+      <div class="doors">
+        <article class="card door" id="door-911" data-door="911">
+          <h3>1. Call 911</h3>
+          <p>Someone is hurt, a fire is burning, or a crime is in progress. Stay on the line and answer the dispatcher's questions. There is no form on this site that replaces the call.</p>
+          <p><a href="tel:911">Call 911</a></p>
+        </article>
+
+        <article class="card door" id="door-slcpd" data-door="slcpd">
+          <h3>2. Salt Lake City Police online report</h3>
+          <p>For a non-emergency report inside Salt Lake City. Read their page for what they accept online. If the city tells you to call, call. This is the wrong door for a crime in progress, and it is the wrong door for a city this department does not cover.</p>
+          <p><a href="https://police.slc.gov/online-report/" rel="noreferrer">Open the Salt Lake City Police online report</a></p>
+          <p class="url">https://police.slc.gov/online-report/</p>
+        </article>
+
+        <article class="card door" id="door-siac" data-door="siac">
+          <h3>3. SIAC</h3>
+          <p>The Utah Statewide Information and Analysis Center takes a public report. Use it for a threat, or for a tip you cannot place with one agency. It is not a substitute for 911, and it is not the ordinary Salt Lake City police report.</p>
+          <p><a href="https://siac.utah.gov/report/" rel="noreferrer">Open the SIAC report form</a></p>
+          <p class="url">https://siac.utah.gov/report/</p>
+        </article>
+
+        <article class="card door" id="door-tip" data-door="tip">
+          <h3>4. Utah County Sheriff Tip A Cop</h3>
+          <p>The sheriff's tip form for Utah County. Use it when the matter belongs there and it is not an emergency.</p>
+          <p><a href="https://sheriff.utahcounty.gov/tip-a-cop" rel="noreferrer">Open Tip A Cop</a></p>
+          <p class="url">https://sheriff.utahcounty.gov/tip-a-cop</p>
+        </article>
+
+        <article class="card door" id="door-fbi" data-door="fbi">
+          <h3>5. FBI tips</h3>
+          <p>The FBI's public tip page, for a federal crime. If someone is in danger now, call 911 before you fill anything out.</p>
+          <p><a href="https://www.fbi.gov/tips" rel="noreferrer">Open FBI tips</a></p>
+          <p class="url">https://www.fbi.gov/tips</p>
+        </article>
+
+        <article class="card door" id="door-stoppers" data-door="stoppers">
+          <h3>6. Utah Crime Stoppers</h3>
+          <p>An anonymous local tip line. The online form may not be live. If it does not load, do not keep retrying it as your only door, and do not post the tip in public instead. Use an agency door above, or the non-emergency number that sheriff's office publishes.</p>
+          <p><a href="https://www.utahcrimestoppers.org/" rel="noreferrer">Open Utah Crime Stoppers</a></p>
+          <p class="url">https://www.utahcrimestoppers.org/</p>
+        </article>
+      </div>
+
+      <aside class="note warm follow-sm">
+        <h3>Davis County and Weber County</h3>
+        <p>Those counties do not have a tip form on this page. For a non-emergency, use the non-emergency number printed by that sheriff's office, or send the tip through SIAC or Utah Crime Stoppers. A missing form is not a reason to start a thread.</p>
+      </aside>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>HiveWatch Utah</h2>
+        <div class="disclaimer">
+          <p><strong>For education and neighborhood awareness only.</strong> These pages are not official alerts. HiveWatch Utah is not affiliated with <a href="https://beready.utah.gov/" rel="noreferrer">Be Ready Utah</a>, any police department, any sheriff's office, or any government agency. In an emergency, call <a href="tel:911">911</a>.</p>
+        </div>
+      </div>
+      <div>
+        <h2>On this site</h2>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="listen.html">Listen</a></li>
+          <li><a href="know.html">Know</a></li>
+          <li><a href="route.html">Route</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Sister sites</h2>
+        <ul>
+          <li><a href="https://prepareutah.com/" rel="noreferrer">Prepare Utah</a></li>
+          <li><a href="https://faultlineutah.com/" rel="noreferrer">FaultLine Utah</a></li>
+        </ul>
+        <p class="small"><a href="about.html#privacy">Privacy</a></p>
+      </div>
+    </div>
+    <p class="fine">Hand-edited pages. No accounts, no analytics, no tracking cookie from this site. Feeds, posts, and maps belong to their publishers. A link is not a confirmation.</p>
+  </div>
+</footer>
+<script src="assets/js/common.js?v=2026-10-23"></script>
+<script src="assets/js/route.js?v=2026-10-23"></script>
+</body>
+</html>

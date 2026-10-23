@@ -1,0 +1,10 @@
+# Read by Cloudflare Pages and Netlify. Not served as a page.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=()
+
+# CSS and JS links carry ?v=<date>, so bumping it busts this cache.
+/assets/*
+  Cache-Control: public, max-age=3600
