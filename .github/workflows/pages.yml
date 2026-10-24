@@ -1,9 +1,13 @@
-# Publishes the site/ folder to GitHub Pages (hivewatchutah.com) on every push to main.
+# Publishes the site/ folder to GitHub Pages (hivewatchutah.com) on every push
+# to main, and every 30 minutes with fresh air data from scripts/fetch_data.py.
 name: Deploy site
 
 on:
   push:
     branches: [main]
+  schedule:
+    # Off the top of the hour, when GitHub most often delays scheduled runs.
+    - cron: '20,50 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -13,7 +17,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -23,7 +27,19 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - id: pages
+        uses: actions/configure-pages@v5
+      # Any feed that is down keeps its section of the last published air.json.
+      # On a scheduled run with both DAQ and AirNow down the step fails, so
+      # nothing is deployed and the previous site stays live. A push always
+      # deploys.
+      - name: Fetch air data
+        run: |
+          curl -fsSL --max-time 20 --retry 3 --retry-all-errors --retry-delay 5 \
+            "${{ steps.pages.outputs.base_url }}/data/air.json" -o previous-air.json || rm -f previous-air.json
+          strict=""
+          if [ "${{ github.event_name }}" = "schedule" ]; then strict="--strict"; fi
+          python3 scripts/fetch_data.py --previous previous-air.json $strict
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

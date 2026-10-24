@@ -38,6 +38,21 @@
   --blue-soft: #15222F;
   --rock: #E58F60;
 
+  /* EPA's official AQI colors. AirNow's data guidelines ask sites to use
+     them unchanged, so they don't follow the dark palette. */
+  --aqi-good: #00E400;
+  --aqi-moderate: #FFFF00;
+  --aqi-usg: #FF7E00;
+  --aqi-unhealthy: #FF0000;
+  --aqi-very-unhealthy: #8F3F97;
+  --aqi-hazardous: #7E0023;
+
+  /* pollen calendar: one honey hue, dim to bright (validated as an
+     ordinal ramp against --card) */
+  --pollen-1: #735824;
+  --pollen-2: #AE832E;
+  --pollen-3: #F0C566;
+
   /* hero night sky and ridges */
   --sky-top: #172A3F;
   --ridge-far: #22384E;
@@ -95,6 +110,8 @@ li { margin: .35em 0; }
 .follow { margin-top: 1.75rem; }
 .follow-sm { margin-top: 16px; }
 .icon { width: 1.25em; height: 1.25em; vertical-align: -.2em; flex: none; }
+.js-only { display: none; }
+.js .js-only { display: block; }
 
 /* --- emergency strip & header --- */
 .strip {
@@ -524,13 +541,23 @@ tbody th a { font-weight: 700; }
   tr:last-child { border-bottom: 0; }
   th, td { border: 0; padding: 2px 0; }
   th + td, td + th { margin-top: 8px; }
+  /* The pollen calendar stays a grid on phones and scrolls if it must. */
+  table.cal { display: table; width: 100%; }
+  table.cal caption { display: table-caption; }
+  table.cal thead { display: table-header-group; }
+  table.cal tbody { display: table-row-group; }
+  table.cal tr { display: table-row; padding: 0; border: 0; }
+  table.cal th, table.cal td { display: table-cell; width: auto; }
+  table.cal tbody th { padding: 8px 6px 8px 10px; }
+  table.cal td + th, table.cal th + td { margin-top: 0; }
+  table.cal td { border-bottom: 1px solid var(--line); }
   .cell-label {
     display: block;
     font-family: var(--sans);
-    font-size: .72rem;
+    font-size: .78rem;
     font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
+    letter-spacing: .02em;
+    /* Not uppercase: it would turn "µg/m³" into "MG/M³". */
     color: var(--rock);
   }
 }
@@ -538,6 +565,164 @@ tbody th a { font-weight: 700; }
 .essay p:last-child { margin-bottom: 0; }
 .split { display: grid; gap: 16px; }
 @media (min-width: 760px) { .split { grid-template-columns: 1fr 1fr; } }
+
+/* --- sources & dates --- */
+.src {
+  display: inline-block;
+  margin-left: 2px;
+  padding: 0 7px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: .74rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: .1em;
+}
+.src:hover { color: var(--link-hover); border-color: var(--link-hover); }
+.checked { margin: 24px 0 0; font-size: .85rem; color: var(--muted); }
+
+.grid.four { grid-template-columns: 1fr; }
+@media (min-width: 640px) { .grid.four { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .grid.four { grid-template-columns: repeat(4, 1fr); } }
+
+details.more {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  margin: 12px 0;
+}
+details.more > summary {
+  cursor: pointer;
+  padding: 12px 16px;
+  font-weight: 700;
+  color: var(--head);
+  min-height: 44px;
+}
+details.more > summary:hover { color: var(--gold-bright); }
+.more-body { padding: 0 16px 14px; }
+.more-body > :last-child { margin-bottom: 0; }
+
+/* --- AQI colors --- */
+.aqi-chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: .85rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #111;
+  background: var(--muted);
+  white-space: nowrap;
+}
+[data-cat="good"] { --cat: var(--aqi-good); }
+[data-cat="moderate"] { --cat: var(--aqi-moderate); }
+[data-cat="usg"] { --cat: var(--aqi-usg); }
+[data-cat="unhealthy"] { --cat: var(--aqi-unhealthy); }
+[data-cat="very-unhealthy"] { --cat: var(--aqi-very-unhealthy); }
+[data-cat="hazardous"] { --cat: var(--aqi-hazardous); }
+.aqi-chip[data-cat] { background: var(--cat); }
+/* White text on the two dark colors, plus a light edge so they show on the dark page. */
+.aqi-chip[data-cat="very-unhealthy"],
+.aqi-chip[data-cat="hazardous"] { color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35); }
+@media (max-width: 420px) { .aqi-chip { white-space: normal; } }
+
+.card.level { border-left: 6px solid var(--cat, var(--line-strong)); }
+.card.level h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.range { font-family: var(--sans); font-size: .9rem; font-weight: 600; color: var(--muted); }
+.levels { display: grid; gap: 12px; }
+
+/* --- pollen calendar --- */
+.table-wrap.cal-wrap { overflow-x: auto; }
+table.cal { table-layout: fixed; min-width: 330px; font-size: .85rem; }
+table.cal caption { font-family: var(--sans); font-size: .92rem; font-weight: 600; line-height: 1.45; color: var(--ink-soft); }
+table.cal th, table.cal td { padding: 0; border-bottom: 1px solid var(--line); }
+table.cal thead th {
+  padding: 6px 0;
+  text-align: center;
+  font-size: .75rem;
+  color: var(--muted);
+}
+table.cal thead th:first-child { text-align: left; padding-left: 12px; }
+/* Fixed layout takes column widths from the header row, so size the label column there. */
+table.cal th:first-child { width: 30%; }
+table.cal thead abbr { text-decoration: none; }
+table.cal tbody th {
+  padding: 8px 8px 8px 12px;
+  font-weight: 600;
+  color: var(--ink);
+  vertical-align: middle;
+}
+table.cal td { height: 32px; border-left: 2px solid var(--card); background: transparent; }
+table.cal td[data-lvl="1"] { background: var(--pollen-1); }
+table.cal td[data-lvl="2"] { background: var(--pollen-2); }
+table.cal td[data-lvl="3"] { background: var(--pollen-3); }
+@media (min-width: 700px) { table.cal th:first-child { width: 20%; } }
+.cal-key { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0; margin: 10px 0 0; font-size: .9rem; color: var(--muted); }
+.cal-key li { display: flex; align-items: center; gap: 8px; margin: 0; }
+.cal-key li::before { content: ""; width: 22px; height: 14px; border-radius: 4px; background: var(--line); }
+.cal-key li[data-lvl="1"]::before { background: var(--pollen-1); }
+.cal-key li[data-lvl="2"]::before { background: var(--pollen-2); }
+.cal-key li[data-lvl="3"]::before { background: var(--pollen-3); }
+
+/* --- Today panel (home page) --- */
+.today-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.today-meta { margin: 0 0 16px; font-size: .9rem; color: var(--muted); }
+.today-alerts { list-style: none; padding: 0; margin: 0 0 16px; }
+.today-alerts li {
+  margin: 0 0 8px;
+  padding: 12px 14px;
+  border-radius: 0 12px 12px 0;
+  border-left: 4px solid var(--rock);
+  background: var(--gold-soft);
+}
+.stale {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 0 12px 12px 0;
+  border-left: 4px solid var(--gold);
+  background: var(--gold-soft);
+}
+.counties { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .counties { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .counties.core { grid-template-columns: repeat(4, 1fr); } }
+.county {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--cat, var(--line-strong));
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.county h3 { margin-bottom: 8px; font-size: 1.15rem; }
+.county .now { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0 0 4px; }
+.aqi-num { font-family: var(--serif); font-size: 2.1rem; font-weight: 700; line-height: 1; color: var(--head); }
+.now-meta { margin: 0 0 10px; font-size: .82rem; color: var(--muted); }
+.county.is-old .aqi-num,
+.county.is-old .now .aqi-chip { opacity: .55; }
+.days { margin: 0 0 10px; padding: 0; }
+.days div { display: grid; grid-template-columns: 4.6em 1fr; gap: 8px; padding: 5px 0; border-top: 1px solid var(--line); font-size: .9rem; }
+.days dt { color: var(--muted); font-weight: 600; }
+.days dd { margin: 0; }
+.dot {
+  display: inline-block;
+  width: .7em;
+  height: .7em;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  vertical-align: .02em;
+}
+/* Only a dot with its own level takes a color; --cat would otherwise
+   inherit from the card and claim a level the text calls unknown. */
+.dot[data-cat] { background: var(--cat); }
+.source-line { margin: 0 0 10px; font-size: .82rem; color: var(--gold-bright); }
+.burn { margin: 0; padding: 8px 10px; border-radius: 8px; background: var(--bg-2); font-size: .9rem; }
+.county .note-line { margin: 8px 0 0; font-size: .8rem; color: var(--muted); }
+.nearby { margin-top: 16px; }
 
 /* --- footer --- */
 .site-footer {
@@ -575,7 +760,8 @@ tbody th a { font-weight: 700; }
 }
 
 @media (forced-colors: active) {
-  .btn, .card, .note, .status-line { border: 1px solid ButtonText; }
+  .btn, .card, .note, .status-line, .county, .aqi-chip, .src { border: 1px solid ButtonText; }
+  table.cal td[data-lvl="1"], table.cal td[data-lvl="2"], table.cal td[data-lvl="3"] { forced-color-adjust: none; }
 }
 
 /* Paper is light. Swap the palette back so printed pages stay legible. */
@@ -597,5 +783,9 @@ tbody th a { font-weight: 700; }
   .site-footer a, .site-footer .fine { color: #000; }
   .card, .door, .rules li, .table-wrap { box-shadow: none; break-inside: avoid; }
   .steps li::before { background: #fff; border: 1px solid #000; color: #000; }
+  .county, .card.level { box-shadow: none; break-inside: avoid; }
+  .burn { background: #fff; border: 1px solid #999; }
+  .src { color: #000; border-color: #999; }
+  .aqi-chip, .dot, table.cal td, .cal-key li::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   a { color: #000; }
 }

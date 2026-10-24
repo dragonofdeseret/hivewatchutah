@@ -14,3 +14,6 @@ __pycache__/
 
 # Test screenshots (scripts/screenshots.py)
 screenshots/
+
+# Built by scripts/fetch_data.py; GitHub Actions makes a fresh copy on every deploy
+site/data/

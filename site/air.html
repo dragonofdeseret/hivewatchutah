@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Air · HiveWatch Utah</title>
+<meta name="description" content="Read the AQI in six colors, tell a health level from a burn day, and find which Utah forecast and monitors cover your county.">
+<link rel="canonical" href="https://hivewatchutah.com/air.html">
+<meta property="og:url" content="https://hivewatchutah.com/air.html">
+<meta property="og:title" content="Air · HiveWatch Utah">
+<meta property="og:description" content="Read the AQI in six colors, tell a health level from a burn day, and find which Utah forecast and monitors cover your county.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HiveWatch Utah">
+<meta name="theme-color" content="#1C3450">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css?v=2026-10-24">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="strip" role="note">
+  <p><strong>Trouble breathing? Call <a href="tel:911">911</a>.</strong> HiveWatch Utah is not an official alert or medical service.</p>
+</div>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 3.2 18.5 6.8v6.9L12 17.3 5.5 13.7V6.8z"/><path d="M12 8.2 15 9.9v3.4L12 15.1 9 13.3V9.9z"/></svg></span>
+      <span><b>HiveWatch</b><small>Utah<span class="long"> · Wasatch Front air</span></small></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="air.html" aria-current="page">Air</a></li>
+        <li><a href="seasons.html">Seasons</a></li>
+        <li><a href="pollen.html">Pollen</a></li>
+        <li><a href="breathe.html">Breathe</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">Air</p>
+      <h1>Reading the air</h1>
+      <p class="lede">Utah's air forecast gives each day two labels: how the air may affect your health, and what you are asked to do about it. This page explains both, and where the numbers come from.</p>
+    </div>
+  </header>
+
+  <section class="block" id="aqi" aria-labelledby="aqi-title">
+    <div class="wrap">
+      <h2 id="aqi-title">The AQI in six colors</h2>
+      <div class="measure">
+        <p>The Air Quality Index (AQI) is EPA's color-coded scale for outdoor air. It has six categories, each with a range of index values, and a higher number means more pollution and more concern. <a class="src" href="https://www.airnow.gov/aqi/aqi-basics/" rel="noreferrer">AirNow</a></p>
+        <p>For each pollutant, an AQI of 100 generally lines up with its short-term national health standard, and values up to 100 are generally seen as satisfactory. <a class="src" href="https://www.airnow.gov/aqi/aqi-basics/" rel="noreferrer">AirNow</a> Above 100, the air is unhealthy first for sensitive groups, then for everyone as the number climbs. <a class="src" href="https://www.airnow.gov/aqi/aqi-basics/" rel="noreferrer">AirNow</a></p>
+        <p>The Utah Division of Air Quality (DAQ) names PM2.5 as the pollutant that builds up in winter and ozone as the summer one. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a> PM2.5 means fine particles, generally 2.5 micrometers across or smaller, about a thirtieth the width of an average human hair. <a class="src" href="https://www.epa.gov/pm-pollution/particulate-matter-pm-basics" rel="noreferrer">EPA</a></p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>PM2.5 and the AQI, using EPA's breakpoints in effect since May 6, 2024</caption>
+          <thead>
+            <tr><th scope="col">Level</th><th scope="col">AQI</th><th scope="col">PM2.5 (24-hour average, µg/m³)</th><th scope="col">What it means</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><span class="cell-label">Level</span><span class="aqi-chip" data-cat="good">Good</span></th>
+                <td><span class="cell-label">AQI</span>0–50</td>
+                <td><span class="cell-label">PM2.5 (24-hour average, µg/m³)</span>0.0–9.0</td>
+                <td><span class="cell-label">What it means</span>Little or no risk from air pollution.</td></tr>
+            <tr><th scope="row"><span class="cell-label">Level</span><span class="aqi-chip" data-cat="moderate">Moderate</span></th>
+                <td><span class="cell-label">AQI</span>51–100</td>
+                <td><span class="cell-label">PM2.5 (24-hour average, µg/m³)</span>9.1–35.4</td>
+                <td><span class="cell-label">What it means</span>Acceptable for most people. People who are unusually sensitive to pollution may face some risk.</td></tr>
+            <tr><th scope="row"><span class="cell-label">Level</span><span class="aqi-chip" data-cat="usg">Unhealthy for Sensitive Groups</span></th>
+                <td><span class="cell-label">AQI</span>101–150</td>
+                <td><span class="cell-label">PM2.5 (24-hour average, µg/m³)</span>35.5–55.4</td>
+                <td><span class="cell-label">What it means</span>People in sensitive groups may feel effects. Others are less likely to.</td></tr>
+            <tr><th scope="row"><span class="cell-label">Level</span><span class="aqi-chip" data-cat="unhealthy">Unhealthy</span></th>
+                <td><span class="cell-label">AQI</span>151–200</td>
+                <td><span class="cell-label">PM2.5 (24-hour average, µg/m³)</span>55.5–125.4</td>
+                <td><span class="cell-label">What it means</span>Some people in the general public may feel effects. Sensitive groups may feel stronger ones.</td></tr>
+            <tr><th scope="row"><span class="cell-label">Level</span><span class="aqi-chip" data-cat="very-unhealthy">Very Unhealthy</span></th>
+                <td><span class="cell-label">AQI</span>201–300</td>
+                <td><span class="cell-label">PM2.5 (24-hour average, µg/m³)</span>125.5–225.4</td>
+                <td><span class="cell-label">What it means</span>A health alert. Risk rises for everyone.</td></tr>
+            <tr><th scope="row"><span class="cell-label">Level</span><span class="aqi-chip" data-cat="hazardous">Hazardous</span></th>
+                <td><span class="cell-label">AQI</span>301 and up</td>
+                <td><span class="cell-label">PM2.5 (24-hour average, µg/m³)</span>225.5 and up</td>
+                <td><span class="cell-label">What it means</span>A warning of emergency conditions. Effects are more likely for everyone.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted measure">The ranges are EPA's. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> DAQ's forecast legend uses the same PM2.5 cut points. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a> The meanings are paraphrased from AirNow. <a class="src" href="https://www.airnow.gov/aqi/aqi-basics/" rel="noreferrer">AirNow</a></p>
+
+      <div class="note measure">
+        <p>Since May 6, 2024, Moderate starts at 9.1 µg/m³ instead of 12.1, and EPA expected many places to see more yellow days as a result. <a class="src" href="https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf" rel="noreferrer">EPA</a> The change reflects newer health science, not dirtier air. <a class="src" href="https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf" rel="noreferrer">EPA</a></p>
+      </div>
+
+      <div class="measure">
+        <p>Ozone has its own ranges. Ozone is a gas that forms when pollutants react in sunlight. <a class="src" href="https://deq.utah.gov/air-quality/northern-wasatch-front-ozone" rel="noreferrer">Utah DEQ</a> Its AQI uses an 8-hour average in parts per million (ppm): Good runs up to 0.054 ppm, and Unhealthy for Sensitive Groups starts at 0.071 ppm. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a></p>
+        <p>The AQI covers five pollutants: ozone, particle pollution, carbon monoxide, nitrogen dioxide and sulfur dioxide. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> When several are measured, the AQI you see is the highest of their separate values. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> AirNow's maps and readings use only ozone and particles for now. <a class="src" href="https://www.airnow.gov/about-the-data/" rel="noreferrer">AirNow</a> Pollen is not one of the five, so a green AQI says nothing about pollen. For that, see <a href="pollen.html">Pollen</a>.</p>
+        <p>Who counts as sensitive depends on the pollutant. For particles, EPA names people with heart or lung disease, older adults, and children and teenagers. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> For ozone, it names people with lung disease such as asthma, children and teenagers, older adults, and people who are active outdoors. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> What to do at each level is on <a href="breathe.html">Breathe</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="two-levels" aria-labelledby="two-levels-title">
+    <div class="wrap">
+      <h2 id="two-levels-title">Health level and action level are two different things</h2>
+      <p class="measure">Each day in DAQ's 3-day forecast carries two labels. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a> They answer different questions.</p>
+      <div class="grid two">
+        <article class="card">
+          <h3>Health forecast</h3>
+          <p>This is the AQI category for the day's highest expected pollution level. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a> It tells you how the air may affect people, so you can plan outdoor activity. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a></p>
+        </article>
+        <article class="card">
+          <h3>Action forecast</h3>
+          <p>This is Unrestricted, Voluntary or Mandatory, and it comes from Utah rule R307-302 for Box Elder, Cache, Davis, Salt Lake, Tooele, Utah and Weber counties. <a class="src" href="https://air.utah.gov/forecastLegend.html" rel="noreferrer">Utah DAQ</a> DAQ also uses it to advise industry and drivers. <a class="src" href="https://air.utah.gov/forecastLegend.html" rel="noreferrer">Utah DAQ</a></p>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>What each action level asks, in DAQ's PM2.5 and ozone versions</caption>
+          <thead>
+            <tr><th scope="col">Action level</th><th scope="col">PM2.5 (mostly winter)</th><th scope="col">Ozone (mostly summer)</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><span class="cell-label">Action level</span>Unrestricted</th>
+                <td><span class="cell-label">PM2.5 (mostly winter)</span>Wood and coal stoves and fireplaces may be used. Their smoke must still meet the visible-emission limits in R307-302-5.</td>
+                <td><span class="cell-label">Ozone (mostly summer)</span>No restrictions. You are encouraged to cut emissions and choose cleaner ways to travel.</td></tr>
+            <tr><th scope="row"><span class="cell-label">Action level</span>Voluntary</th>
+                <td><span class="cell-label">PM2.5 (mostly winter)</span>You are asked not to use wood or coal stoves and fireplaces, to cut back or stop open burning, and to combine trips. Industry is asked to keep emissions low.</td>
+                <td><span class="cell-label">Ozone (mostly summer)</span>You are asked to combine trips, choose cleaner travel and limit VOCs.</td></tr>
+            <tr><th scope="row"><span class="cell-label">Action level</span>Mandatory</th>
+                <td><span class="cell-label">PM2.5 (mostly winter)</span>Wood and coal stoves and fireplaces must not be used. No open burning, including fire pits, fire rings and campfires. Combine trips. Industry is asked to keep emissions low.</td>
+                <td><span class="cell-label">Ozone (mostly summer)</span>Employers start their mandatory trip-reduction programs. Combine trips, choose cleaner travel and limit VOCs.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted measure">Paraphrased from DAQ's forecast legend, which has a PM2.5 and an ozone version of each level. <a class="src" href="https://air.utah.gov/forecastLegend.html" rel="noreferrer">Utah DAQ</a></p>
+
+      <div class="measure">
+        <p>VOCs (volatile organic compounds) and nitrogen oxides are the pollutants that react in sunlight to form ozone. <a class="src" href="https://deq.utah.gov/air-quality/northern-wasatch-front-ozone" rel="noreferrer">Utah DEQ</a> The ozone version of Mandatory does not mention stoves or fireplaces, so an ozone Mandatory day is about driving and VOCs. <a class="src" href="https://air.utah.gov/forecastLegend.html" rel="noreferrer">Utah DAQ</a></p>
+        <p>The two labels move separately. In the rule text, DAQ announces a mandatory no-burn period when PM2.5 is forecast to reach 25 µg/m³ or more. <a class="src" href="https://www.law.cornell.edu/regulations/utah/Utah-Admin-Code-R307-302-3" rel="noreferrer">Cornell LII</a> On the 24-hour scale above, 25 µg/m³ falls in the Moderate range, so a Mandatory day can come with a yellow Health forecast. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> In Salt Lake County, a Voluntary day is also a no-burn day from November 1 to March 1. <a class="src" href="https://www.saltlakecounty.gov/health/air-quality/sources/" rel="noreferrer">Salt Lake County</a> More on that under <a href="#burn">Can I burn today?</a></p>
+        <p>Read both. The Health level tells you how hard to push outdoors. The Action level tells you what you are asked to do, from the woodstove to the car.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="burn" aria-labelledby="burn-title">
+    <div class="wrap">
+      <h2 id="burn-title">Can I burn today?</h2>
+      <p class="measure">From November 1, check before you light anything. These are the rules as DAQ, Utah DEQ and Salt Lake County state them.</p>
+      <ul class="rules">
+        <li><strong>The season.</strong> DAQ usually calls no-burn days between November 1 and March 1, but it can call one at any time of year. <a class="src" href="https://deq.utah.gov/daq/no-burn-days" rel="noreferrer">Utah DEQ</a> A Utah DEQ news release, first posted in 2018, says the wood-burning restrictions start November 1. <a class="src" href="https://deq.utah.gov/communication/news/wood-burning-restrictions-november-1" rel="noreferrer">Utah DEQ</a></li>
+        <li><strong>Mandatory means no wood, pellets or coal.</strong> Wood fireplaces, wood stoves, pellet stoves and coal stoves may not be used, and that includes EPA-certified stoves. <a class="src" href="https://deq.utah.gov/daq/no-burn-days" rel="noreferrer">Utah DEQ</a> Open burning is out too, including fire pits, fire rings and campfires. <a class="src" href="https://air.utah.gov/forecastLegend.html" rel="noreferrer">Utah DAQ</a></li>
+        <li><strong>Gas and propane are allowed.</strong> Under the state rule, you may use natural gas appliances and propane stoves on no-burn days. <a class="src" href="https://deq.utah.gov/daq/no-burn-days" rel="noreferrer">Utah DEQ</a></li>
+        <li><strong>One household exemption, with one wrinkle.</strong> DEQ names a single exemption: a stove registered with DAQ as the home's sole source of heat. <a class="src" href="https://deq.utah.gov/daq/no-burn-days" rel="noreferrer">Utah DEQ</a> The registration has to be in place for it to count. <a class="src" href="https://www.law.cornell.edu/regulations/utah/Utah-Admin-Code-R307-302-3" rel="noreferrer">Cornell LII</a> The rule text also leaves out sources above 7,000 feet in Box Elder, Davis, Salt Lake, Tooele, Utah and Weber counties. <a class="src" href="https://www.law.cornell.edu/regulations/utah/Utah-Admin-Code-R307-302-2" rel="noreferrer">Cornell LII</a> If you think either applies to you, ask DAQ before you burn.</li>
+        <li><strong>Salt Lake County goes further.</strong> From November 1 to March 1, the county bans solid-fuel fires in fireplaces and stoves, and outdoor fires such as bonfires, patio fire pits and charcoal grills, on Voluntary days as well as Mandatory ones. <a class="src" href="https://www.saltlakecounty.gov/health/air-quality/sources/" rel="noreferrer">Salt Lake County</a> Burning yard waste or trash is not allowed in the county at any time. <a class="src" href="https://www.saltlakecounty.gov/health/air-quality/sources/" rel="noreferrer">Salt Lake County</a></li>
+        <li><strong>Fines differ by source.</strong> DEQ's no-burn page lists fines of up to $150 per household. <a class="src" href="https://deq.utah.gov/daq/no-burn-days" rel="noreferrer">Utah DEQ</a> The 2018 DEQ release says a first violation costs $150, later ones cost more, and penalties can reach $299 a day. <a class="src" href="https://deq.utah.gov/communication/news/wood-burning-restrictions-november-1" rel="noreferrer">Utah DEQ</a> Salt Lake County lists penalties of up to $299 a day. <a class="src" href="https://www.saltlakecounty.gov/health/air-quality/sources/" rel="noreferrer">Salt Lake County</a></li>
+        <li><strong>Where the state rule applies.</strong> DEQ describes the area as all of Salt Lake and Davis counties, all of Cache Valley, Weber and Utah counties west of the Wasatch, Box Elder County from the Wasatch west to the Promontory range and south of Portage, and Tooele County between the north ends of the Oquirrh and Stansbury ranges and north of Route 199. <a class="src" href="https://deq.utah.gov/daq/no-burn-days" rel="noreferrer">Utah DEQ</a> The rule text itself lists all of Utah County, not only the part west of the Wasatch. <a class="src" href="https://www.law.cornell.edu/regulations/utah/Utah-Admin-Code-R307-302-2" rel="noreferrer">Cornell LII</a></li>
+        <li><strong>Wasatch and Summit are outside it.</strong> R307-302 names seven counties, and Wasatch and Summit are not among them. <a class="src" href="https://air.utah.gov/forecastLegend.html" rel="noreferrer">Utah DAQ</a> DAQ's Wasatch County forecast still shows an action level. <a class="src" href="https://air.utah.gov/forecast.php?id=hb" rel="noreferrer">Utah DAQ</a> For any local burn rules there, ask your county.</li>
+      </ul>
+
+      <div class="note sage measure">
+        <p>Confirm the day's level at air.utah.gov. DAQ puts the action level on its website and gives it to local news outlets twice a day. <a class="src" href="https://deq.utah.gov/daq/no-burn-days" rel="noreferrer">Utah DEQ</a> It also offers forecast emails, a phone forecast line at 801-536-0072 (toll-free 1-800-228-5434) and the UtahAir app for Android and iOS. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="sensors" aria-labelledby="sensors-title">
+    <div class="wrap">
+      <h2 id="sensors-title">Monitors, sensors and models</h2>
+      <p class="measure">The numbers in apps and maps come from three kinds of sources. They are not equally solid.</p>
+      <ul class="rules">
+        <li><strong>Official monitors.</strong> DAQ runs a network of monitoring stations, listed by county on its station page. <a class="src" href="https://air.utah.gov/network/Counties.htm" rel="noreferrer">Utah DAQ</a> Its live readings are 1-hour averages, updated once an hour and not quality assured. <a class="src" href="https://air.utah.gov/airapi.html" rel="noreferrer">Utah DAQ</a> AirNow says its data get only preliminary checks, not the full review used for official records. <a class="src" href="https://www.airnow.gov/about-the-data/" rel="noreferrer">AirNow</a> A daily PM2.5 AQI takes a full 24 hours of readings. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> For particles, AirNow fills the gap with a NowCast: an average of the last 12 hours that leans toward the last 3 when the air is changing fast. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> DAQ's current-conditions page shows a single hour in µg/m³. <a class="src" href="https://air.utah.gov/" rel="noreferrer">Utah DAQ</a> Neither is the 24-hour average in the table above, so one yellow hour does not make a yellow day.</li>
+        <li><strong>Low-cost sensors.</strong> Sensors such as PurpleAir cost less and are easier to run than regulatory monitors, and individuals own most of the ones on the AirNow Fire and Smoke Map. <a class="src" href="https://document.airnow.gov/airnow-fire-and-smoke-map-questions-and-answers.pdf" rel="noreferrer">AirNow</a> In a 2021 study by EPA scientists, raw PurpleAir readings ran about 40 percent high in most of the U.S. <a class="src" href="https://amt.copernicus.org/articles/14/4617/2021/" rel="noreferrer">AMT</a> EPA corrects sensor data before the Fire and Smoke Map shows them. <a class="src" href="https://www.epa.gov/air-sensor-toolbox/technical-approaches-sensor-data-airnow-fire-and-smoke-map" rel="noreferrer">EPA</a> Fog, humidity and temperature can throw sensors off. <a class="src" href="https://www.epa.gov/wildfires/using-air-quality-sensors-smoke-understanding-sensor-data" rel="noreferrer">EPA</a> They also tend to read low for dust. <a class="src" href="https://document.airnow.gov/airnow-fire-and-smoke-map-questions-and-answers.pdf" rel="noreferrer">AirNow</a> EPA advises against putting AQI colors on minute-by-minute sensor readings, because the AQI rests on longer exposures. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a></li>
+        <li><strong>Model forecasts.</strong> Some air quality numbers come from a computer model, not a monitor. Open-Meteo, for example, serves the CAMS global forecast, which uses grid cells about 45 km (28 miles) across. <a class="src" href="https://open-meteo.com/en/docs/air-quality-api" rel="noreferrer">Open-Meteo</a> A strong inversion holds pollution in a shallow layer near the ground. <a class="src" href="https://deq.utah.gov/daq/inversions" rel="noreferrer">Utah DEQ</a> Models can struggle with that. In a 2021 study of January 2011 in the Salt Lake Valley, a research model roughly followed the rise and fall of PM2.5 during inversions but ran about a third too low on average, partly because it mixed the air more than the real atmosphere did. <a class="src" href="https://infoscience.epfl.ch/entities/publication/990a61a0-0746-4981-bcf4-bd6a60379a6c" rel="noreferrer">ES&amp;T</a> Clean days can be off too. On the morning of October 24, 2026, the Open-Meteo model put a point in Salt Lake City at about 12 µg/m³ in each hour through 9 a.m. <a class="src" href="https://air-quality-api.open-meteo.com/v1/air-quality?latitude=40.76&amp;longitude=-111.89&amp;hourly=pm2_5,us_aqi_pm2_5&amp;timezone=America%2FDenver&amp;forecast_days=1" rel="noreferrer">Open-Meteo</a> DAQ's Salt Lake County station measured under 4 µg/m³ in each of those hours. <a class="src" href="https://air.utah.gov/csvFeed.php?id=slc" rel="noreferrer">Utah DAQ</a> Both links update, so later visits show newer numbers. Treat a model number as an estimate, not a reading. AQI forecasts usually come from state, Tribal and local forecasters. <a class="src" href="https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf" rel="noreferrer">EPA</a> In Utah, that forecast is DAQ's. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a></li>
+      </ul>
+
+      <div class="note warm measure">
+        <h2>One odd sensor</h2>
+        <p>You may see one sensor in purple or maroon among green neighbors. A single sensor can sit beside a local source such as a fire pit, be labeled outdoors when it is indoors, or be shown at the wrong spot on the map. <a class="src" href="https://document.airnow.gov/airnow-fire-and-smoke-map-questions-and-answers.pdf" rel="noreferrer">AirNow</a> Nearby sensors rarely match exactly, but they should show similar trends. Stuck values or sudden jumps can signal a problem with the sensor. <a class="src" href="https://www.epa.gov/wildfires/using-air-quality-sensors-smoke-understanding-sensor-data" rel="noreferrer">EPA</a> Before you change plans, compare it with the sensors around it and the nearest official monitor. <a class="src" href="https://www.epa.gov/wildfires/using-air-quality-sensors-smoke-understanding-sensor-data" rel="noreferrer">EPA</a> If you notice smoke symptoms, take steps to cut your exposure, whatever a sensor reads. <a class="src" href="https://www.epa.gov/wildfires/using-air-quality-sensors-smoke-understanding-sensor-data" rel="noreferrer">EPA</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="coverage" aria-labelledby="coverage-title">
+    <div class="wrap">
+      <h2 id="coverage-title">Which forecast covers you</h2>
+      <div class="measure">
+        <p>DAQ forecasts by county. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a> AirNow reports by area, and an area's number for any hour is the highest AQI among its monitors. <a class="src" href="https://docs.airnowapi.org/faq" rel="noreferrer">AirNow</a> AirNow's "Salt Lake City" area takes in eight monitors, and one of them is Davis County's monitor in Bountiful. <a class="src" href="https://files.airnowtech.org/airnow/today/Site_To_ReportingArea.csv" rel="noreferrer">AirNow</a> So AirNow's "Salt Lake City" number speaks for both counties.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Forecasts and AirNow areas by county, as of October 24, 2026</caption>
+          <thead>
+            <tr><th scope="col">County</th><th scope="col">DAQ forecast</th><th scope="col">AirNow reporting area</th><th scope="col">Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><span class="cell-label">County</span>Salt Lake</th>
+                <td><span class="cell-label">DAQ forecast</span>Yes: <a href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Salt Lake County</a></td>
+                <td><span class="cell-label">AirNow reporting area</span>"Salt Lake City": the highest of 8 monitors in Salt Lake and Davis counties, including Bountiful and a near-road site in Murray</td>
+                <td><span class="cell-label">Notes</span>State burn rule countywide. The county also treats Voluntary days as no-burn days, November 1 to March 1.</td></tr>
+            <tr><th scope="row"><span class="cell-label">County</span>Davis</th>
+                <td><span class="cell-label">DAQ forecast</span>Yes: <a href="https://air.utah.gov/forecast.php?id=bv" rel="noreferrer">Davis County</a></td>
+                <td><span class="cell-label">AirNow reporting area</span>Part of "Salt Lake City" (Bountiful monitor)</td>
+                <td><span class="cell-label">Notes</span>State burn rule countywide. AirNow's number for a given hour may come from a monitor in Salt Lake County.</td></tr>
+            <tr><th scope="row"><span class="cell-label">County</span>Weber</th>
+                <td><span class="cell-label">DAQ forecast</span>Yes: <a href="https://air.utah.gov/forecast.php?id=hv" rel="noreferrer">Weber County</a></td>
+                <td><span class="cell-label">AirNow reporting area</span>"Ogden": one monitor, in Harrisville</td>
+                <td><span class="cell-label">Notes</span>State burn rule west of the Wasatch.</td></tr>
+            <tr><th scope="row"><span class="cell-label">County</span>Utah</th>
+                <td><span class="cell-label">DAQ forecast</span>Yes: <a href="https://air.utah.gov/forecast.php?id=ln" rel="noreferrer">Utah County</a></td>
+                <td><span class="cell-label">AirNow reporting area</span>"Provo": monitors in Lindon and Spanish Fork</td>
+                <td><span class="cell-label">Notes</span>State burn rule west of the Wasatch, per DEQ. The rule text lists the whole county.</td></tr>
+            <tr><th scope="row"><span class="cell-label">County</span>Box Elder</th>
+                <td><span class="cell-label">DAQ forecast</span>Unclear. Box Elder rows appear in DAQ's forecast feed, but on October 24 the <a href="https://air.utah.gov/forecast.php?id=bg" rel="noreferrer">Box Elder page</a> said no forecast was being issued for the county.</td>
+                <td><span class="cell-label">AirNow reporting area</span>"Brigham City": one monitor, in Brigham City</td>
+                <td><span class="cell-label">Notes</span>State burn rule from the Wasatch west to the Promontory range, south of Portage.</td></tr>
+            <tr><th scope="row"><span class="cell-label">County</span>Cache</th>
+                <td><span class="cell-label">DAQ forecast</span>Yes: <a href="https://air.utah.gov/forecast.php?id=sm" rel="noreferrer">Cache County</a></td>
+                <td><span class="cell-label">AirNow reporting area</span>"Logan": one monitor, in Smithfield</td>
+                <td><span class="cell-label">Notes</span>State burn rule across Cache Valley.</td></tr>
+            <tr><th scope="row"><span class="cell-label">County</span>Tooele</th>
+                <td><span class="cell-label">DAQ forecast</span>Yes: <a href="https://air.utah.gov/forecast.php?id=ed" rel="noreferrer">Tooele County</a></td>
+                <td><span class="cell-label">AirNow reporting area</span>"Tooele": one monitor, in Erda</td>
+                <td><span class="cell-label">Notes</span>State burn rule in the north of the county, between the Oquirrh and Stansbury ranges and north of Route 199.</td></tr>
+            <tr><th scope="row"><span class="cell-label">County</span>Wasatch</th>
+                <td><span class="cell-label">DAQ forecast</span>Yes: <a href="https://air.utah.gov/forecast.php?id=hb" rel="noreferrer">Wasatch County</a></td>
+                <td><span class="cell-label">AirNow reporting area</span>None</td>
+                <td><span class="cell-label">Notes</span>DAQ has a real-time monitor in Heber. The county is not named in R307-302, though DAQ's page shows an action level.</td></tr>
+            <tr><th scope="row"><span class="cell-label">County</span>Summit</th>
+                <td><span class="cell-label">DAQ forecast</span>None</td>
+                <td><span class="cell-label">AirNow reporting area</span>None</td>
+                <td><span class="cell-label">Notes</span>No hourly monitor. DAQ's only listed site, Rail Trail, measures 24-hour PM2.5 only. Not named in R307-302.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted measure">AirNow areas and their monitors come from AirNow's site list. <a class="src" href="https://files.airnowtech.org/airnow/today/Site_To_ReportingArea.csv" rel="noreferrer">AirNow</a> Monitor places and what each one measures come from DAQ's station list. <a class="src" href="https://air.utah.gov/network/Counties.htm" rel="noreferrer">Utah DAQ</a> DAQ's forecast page lists 14 counties, and Summit is not one of them. <a class="src" href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ</a> The Box Elder rows are in DAQ's forecast feed. <a class="src" href="https://air.utah.gov/csvFeed.php?id=forecast" rel="noreferrer">Utah DAQ</a> Burn-rule areas follow DEQ's description. <a class="src" href="https://deq.utah.gov/daq/no-burn-days" rel="noreferrer">Utah DEQ</a> The Utah County difference comes from the rule text. <a class="src" href="https://www.law.cornell.edu/regulations/utah/Utah-Admin-Code-R307-302-2" rel="noreferrer">Cornell LII</a> The Voluntary-day rule is Salt Lake County's own. <a class="src" href="https://www.saltlakecounty.gov/health/air-quality/sources/" rel="noreferrer">Salt Lake County</a></p>
+      <p class="measure">In Summit County, a live number an app shows for Park City comes from a monitor in another county, a low-cost sensor or a model. Read it with that in mind.</p>
+    </div>
+  </section>
+
+  <section class="block alt" id="check" aria-labelledby="check-title">
+    <div class="wrap">
+      <h2 id="check-title">Where to check</h2>
+      <ul class="link-list measure">
+        <li><a href="https://air.utah.gov/forecast.php?id=slc" rel="noreferrer">Utah DAQ 3-day forecast (Health and Action, by county)</a><span class="url">https://air.utah.gov/forecast.php?id=slc</span></li>
+        <li><a href="https://air.utah.gov/" rel="noreferrer">Utah DAQ current conditions</a><span class="url">https://air.utah.gov/</span></li>
+        <li><a href="https://www.airnow.gov/" rel="noreferrer">AirNow</a><span class="url">https://www.airnow.gov/</span></li>
+        <li><a href="https://fire.airnow.gov/" rel="noreferrer">AirNow Fire and Smoke Map</a><span class="url">https://fire.airnow.gov/</span></li>
+        <li><a href="https://www.weather.gov/slc/" rel="noreferrer">National Weather Service (NWS) Salt Lake City</a><span class="url">https://www.weather.gov/slc/</span></li>
+        <li><a href="index.html#today">Today on the home page</a><span class="url">hivewatchutah.com/#today</span></li>
+      </ul>
+      <p class="small muted measure">For furnace filters, air cleaners and a household plan for inversion season, see <a href="https://prepareutah.com/hazards/air.html" rel="noreferrer">Prepare Utah's air guide</a>.</p>
+      <p class="checked">Checked October 24, 2026.</p>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h2>HiveWatch Utah</h2>
+        <div class="disclaimer">
+          <p><strong>For education only.</strong> Not medical advice and not an official alert. Air data from the <a href="https://air.utah.gov/" rel="noreferrer">Utah DEQ Division of Air Quality</a> and <a href="https://www.airnow.gov/" rel="noreferrer">U.S. EPA AirNow</a>, shown unchanged; it is preliminary and not quality assured. Alerts from the <a href="https://www.weather.gov/slc/" rel="noreferrer">National Weather Service Salt Lake City</a>. HiveWatch Utah is not affiliated with any of them or with any government agency. Trouble breathing? Call <a href="tel:911">911</a>.</p>
+        </div>
+      </div>
+      <div>
+        <h2>On this site</h2>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="air.html">Air</a></li>
+          <li><a href="seasons.html">Seasons</a></li>
+          <li><a href="pollen.html">Pollen</a></li>
+          <li><a href="breathe.html">Breathe</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Sister sites</h2>
+        <ul>
+          <li><a href="https://prepareutah.com/" rel="noreferrer">Prepare Utah</a></li>
+          <li><a href="https://faultlineutah.com/" rel="noreferrer">FaultLine Utah</a></li>
+        </ul>
+        <p class="small"><a href="about.html#data">Where the numbers come from</a><br><a href="about.html#privacy">Privacy</a></p>
+      </div>
+    </div>
+    <p class="fine">Hand-written pages and a data file rebuilt every 30 minutes. No accounts, no analytics, no cookies. Your browser loads this site and nothing else.</p>
+  </div>
+</footer>
+<script src="assets/js/common.js?v=2026-10-24"></script>
+</body>
+</html>
