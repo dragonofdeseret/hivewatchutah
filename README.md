@@ -7,13 +7,13 @@
 - **Seasons** (`seasons.html`): winter inversions, summer ozone, wildfire smoke, Great Salt Lake dust, who breathes the worst air, and what Utah is doing.
 - **Pollen** (`pollen.html`): the pollen calendar, local plants, how to read a count, where to find a real one, and when to get care.
 - **Breathe** (`breathe.html`): what to do at each level, a clean-air room, filters, masks, timing, schools, and when to get care.
-- **About** (`about.html`): placeholder founder note, where the numbers come from, and privacy.
+- **About** (`about.html`): a short note on who makes the site, where the numbers come from, and privacy.
 
 It's a plain static site: HTML, CSS and a little JavaScript. One Python script turns three public feeds into a small `site/data/air.json`. Visitors' browsers load only this site: no accounts, cookies, analytics, outside fonts, or calls to the agencies.
 
 HiveWatch Utah is for education only. It is not medical advice, not an official alert, and not affiliated with Utah DEQ, EPA, AirNow, the National Weather Service, AAAAI, or any government agency.
 
-> The first version of HiveWatch (Oct 22, 2026, commit `8de8be4`) was a scanner and tip-routing site. That content moved to its own project, **Wasatch Wire** (`Websites/WasatchWire`).
+> The first version of HiveWatch (Oct 22, 2026, the first commit) was a scanner and tip-routing site. That content moved to its own project, **Wasatch Wire** (`Websites/WasatchWire`).
 
 ## Folders
 
@@ -24,11 +24,13 @@ site/                     ← the website; this folder is what gets published
   assets/js/air.js        the Today panel; reads data/air.json and nothing else
   assets/js/common.js     mobile menu
   assets/favicon.svg
+  assets/img/share.png    link-preview image, drawn by scripts/make_images.swift
   data/air.json           built by scripts/fetch_data.py (not committed)
   sitemap.xml, robots.txt, _headers
 scripts/
   fetch_data.py           builds site/data/air.json from Utah DAQ, AirNow and NWS
   serve.py                local preview server
+  make_images.swift       draws site/assets/img/share.png
 .github/workflows/
   pages.yml               fetches data and publishes site/ on every push and every 30 minutes
   keepalive.yml           weekly; keeps GitHub from switching the 30-minute schedule off
@@ -60,7 +62,8 @@ There is no build step for the pages: edit the HTML file and reload.
 | Burn-day wording on the county cards | `burnLine()` in `site/assets/js/air.js` |
 | Which counties get cards, and their notes | `COUNTIES` in `scripts/fetch_data.py` |
 | Header menu and footer | repeated in every `site/*.html` file; change all seven together |
-| Founder note, data sources, privacy | `site/about.html` |
+| Who makes this, data sources, privacy | `site/about.html` |
+| Link-preview image | `scripts/make_images.swift`; run `swift scripts/make_images.swift` from the project root |
 
 Each guide cites its sources next to the claim (the small rounded links) and ends with "Checked [date]". When you re-check a page, update that date.
 
@@ -146,8 +149,8 @@ The repo's Settings → Pages has Source set to **GitHub Actions**, `hivewatchut
 - [ ] Ask Prepare Utah and FaultLine Utah to link here (footers, and Prepare Utah's air guide, which doesn't cover pollen). Add Wasatch Wire to the sister links once its domain is set.
 
 **Content**
-- [ ] Replace the placeholder founder note on About (look for `TODO: Replace this placeholder founder note`).
-- [ ] A share image (`og:image`) for links posted on social media.
+- [x] Replace the placeholder founder note on About with a short neutral note (Oct 28, 2026). A first-person note can replace it later; keep personal names out.
+- [x] A share image (`og:image`) for links posted on social media (Oct 28, 2026).
 - [ ] Spanish, human-translated: about 10% of Utahns speak Spanish at home, and almost no Utah air source offers it. Start with the Today panel, the level-by-level actions and the pollen basics.
 - [ ] Watch the first winter: confirm DAQ's forecast feed uses the health and action words the script expects (it keeps unknown words as received).
 
