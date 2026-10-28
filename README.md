@@ -122,7 +122,7 @@ git push
 
 **Git and iCloud.** This folder is in iCloud Drive, which corrupts Git's internal files if it syncs them. So Git's database lives outside iCloud at `~/.git-repos/hivewatchutah.git`, and the `.git` here is a one-line pointer to it. On another computer, clone from GitHub instead of opening this iCloud folder. iCloud conflict copies (`file 2.html`) are kept out of commits by `.gitignore` and are safe to delete.
 
-**Domain.** hivewatchutah.com is registered at GoDaddy (Oct 22, 2026). To point it at GitHub Pages, set these DNS records in GoDaddy and remove the default parked `A` records:
+**Domain.** hivewatchutah.com is registered at GoDaddy (Oct 22, 2026). Its DNS points at GitHub Pages (set Oct 27, 2026), with the default parked `A` records removed:
 
 | Type | Name | Value |
 |---|---|---|
@@ -132,14 +132,14 @@ git push
 | A | @ | 185.199.111.153 |
 | CNAME | www | prepareutah.github.io |
 
-The repo's Settings → Pages has Source set to **GitHub Actions** and `hivewatchutah.com` as the custom domain. Once DNS is in place and GitHub issues the certificate, turn on **Enforce HTTPS**. If the certificate stalls, remove the custom domain and add it back about an hour after the DNS change, as with FaultLine.
+The repo's Settings → Pages has Source set to **GitHub Actions**, `hivewatchutah.com` as the custom domain, and **Enforce HTTPS** on. The Let's Encrypt certificate covers hivewatchutah.com and www.hivewatchutah.com and renews automatically. The first one didn't start on its own after the DNS change; removing the custom domain and adding it back got it issued at once, as with FaultLine. Do the same if DNS ever changes and the certificate stalls.
 
 ## To-do before public launch
 
 **Accounts and setup**
 - [x] Register **hivewatchutah.com** (GoDaddy, Oct 22, 2026).
 - [x] Create the GitHub repo, push, and turn on GitHub Pages with the custom domain (Oct 27, 2026).
-- [ ] Point GoDaddy DNS at GitHub Pages (table above), then turn on Enforce HTTPS.
+- [x] Point GoDaddy DNS at GitHub Pages (table above), then turn on Enforce HTTPS (Oct 27, 2026).
 - [ ] Set up a contact mailbox (for example `hello@hivewatchutah.com`). Add it to About and to `USER_AGENT` in `scripts/fetch_data.py` (NWS asks API users for contact details).
 - [ ] AirNow: register a free AirNow API account (its fact sheet says one is required, even for the files this site reads), sign and return the Data Exchange Guidelines form to dmc@airnowtech.org, and tell Utah DAQ the site uses its data.
 - [ ] Optional: ask AAAAI (nab@aaaai.org) and Intermountain's Southridge allergy clinic for written permission to show the Riverton pollen counts with credit.
