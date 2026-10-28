@@ -112,7 +112,7 @@ Text meets WCAG AA contrast on the dark background. Printing switches to a light
 
 ## Publishing (GitHub Pages)
 
-Set up the same way as FaultLine Utah and Prepare Utah. The code will live at https://github.com/prepareutah/hivewatchutah (public; not created yet). **Every push to `main` republishes the site**, and so does the 30-minute data schedule. Watch deploys under the repo's **Actions** tab.
+Set up the same way as FaultLine Utah and Prepare Utah. The code lives at https://github.com/prepareutah/hivewatchutah (public). **Every push to `main` republishes the site**, and so does the 30-minute data schedule. Watch deploys under the repo's **Actions** tab.
 
 ```bash
 git add -A
@@ -132,13 +132,13 @@ git push
 | A | @ | 185.199.111.153 |
 | CNAME | www | prepareutah.github.io |
 
-In the repo's Settings → Pages, set Source to **GitHub Actions** and the custom domain to `hivewatchutah.com`. Once DNS is in place and GitHub issues the certificate, turn on **Enforce HTTPS**. If the certificate stalls, remove the custom domain and add it back about an hour after the DNS change, as with FaultLine.
+The repo's Settings → Pages has Source set to **GitHub Actions** and `hivewatchutah.com` as the custom domain. Once DNS is in place and GitHub issues the certificate, turn on **Enforce HTTPS**. If the certificate stalls, remove the custom domain and add it back about an hour after the DNS change, as with FaultLine.
 
 ## To-do before public launch
 
 **Accounts and setup**
 - [x] Register **hivewatchutah.com** (GoDaddy, Oct 22, 2026).
-- [ ] Create the GitHub repo, push, and turn on GitHub Pages with the custom domain.
+- [x] Create the GitHub repo, push, and turn on GitHub Pages with the custom domain (Oct 27, 2026).
 - [ ] Point GoDaddy DNS at GitHub Pages (table above), then turn on Enforce HTTPS.
 - [ ] Set up a contact mailbox (for example `hello@hivewatchutah.com`). Add it to About and to `USER_AGENT` in `scripts/fetch_data.py` (NWS asks API users for contact details).
 - [ ] AirNow: register a free AirNow API account (its fact sheet says one is required, even for the files this site reads), sign and return the Data Exchange Guidelines form to dmc@airnowtech.org, and tell Utah DAQ the site uses its data.
