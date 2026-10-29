@@ -722,6 +722,23 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
 .source-line { margin: 0 0 10px; font-size: .82rem; color: var(--gold-bright); }
 .burn { margin: 0; padding: 8px 10px; border-radius: 8px; background: var(--bg-2); font-size: .9rem; }
 .county .note-line { margin: 8px 0 0; font-size: .8rem; color: var(--muted); }
+
+/* Shimmer marker (built in air.js): a gold hexagon with two rings that
+   ripple out twice and fade, a beat later on each card, then stay still. */
+.watch { display: flex; align-items: flex-start; gap: 8px; margin: -2px 0 10px; font-size: .88rem; font-weight: 600; line-height: 1.35; color: var(--gold-bright); }
+.shimmer { width: 1.6em; height: 1.6em; flex: none; overflow: visible; }
+.watch .shimmer { margin-top: -.125em; }
+.today-alerts .shimmer { margin-right: 6px; vertical-align: -.45em; }
+.shimmer .core { fill: var(--gold); }
+.shimmer .halo, .shimmer .ring { fill: none; stroke: var(--gold-bright); stroke-width: 1.3; vector-effect: non-scaling-stroke; transform-box: fill-box; transform-origin: center; }
+.shimmer .halo { transform: scale(1.7); opacity: .35; }
+.shimmer .ring { opacity: 0; animation: shimmer 1.6s ease-out calc(var(--i, 0) * 140ms) 2 both; }
+.shimmer .ring + .ring { animation-delay: calc(var(--i, 0) * 140ms + 500ms); }
+@keyframes shimmer {
+  0% { transform: scale(1); opacity: 0; }
+  15% { opacity: .85; }
+  100% { transform: scale(3); opacity: 0; }
+}
 .nearby { margin-top: 16px; }
 
 /* --- footer --- */
@@ -757,11 +774,14 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
   html { scroll-behavior: auto; }
   a.card { transition: none; }
   a.card:hover { transform: none; }
+  .shimmer .ring { animation: none; }
 }
 
 @media (forced-colors: active) {
   .btn, .card, .note, .status-line, .county, .aqi-chip, .src { border: 1px solid ButtonText; }
   table.cal td[data-lvl="1"], table.cal td[data-lvl="2"], table.cal td[data-lvl="3"] { forced-color-adjust: none; }
+  .shimmer .core { fill: CanvasText; }
+  .shimmer .halo, .shimmer .ring { stroke: CanvasText; }
 }
 
 /* Paper is light. Swap the palette back so printed pages stay legible. */
@@ -785,6 +805,10 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
   .steps li::before { background: #fff; border: 1px solid #000; color: #000; }
   .county, .card.level { box-shadow: none; break-inside: avoid; }
   .burn { background: #fff; border: 1px solid #999; }
+  .watch, .source-line { color: #000; }
+  .shimmer .core { fill: #000; }
+  .shimmer .halo { stroke: #000; }
+  .shimmer .ring { display: none; }
   .src { color: #000; border-color: #999; }
   .aqi-chip, .dot, table.cal td, .cal-key li::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   a { color: #000; }

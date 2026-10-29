@@ -45,29 +45,29 @@ NWS_ALERTS = "https://api.weather.gov/alerts/active?area=UT"
 #   daq:   key in DAQ's forecast CSV
 #   page:  id of the county's page at https://air.utah.gov/forecast.php?id=…
 #   area:  AirNow reporting area that covers the county (None if there is none)
+#   same:  NWS SAME code, which ties alerts to the county's card
 #   rule:  inside Utah rule R307-302, which sets the burn (action) levels
 #   core:  one of the four Wasatch Front counties shown first
 COUNTIES = [
-    {"id": "salt-lake", "name": "Salt Lake", "daq": "slc", "page": "slc", "area": "Salt Lake City", "rule": True, "core": True,
+    {"id": "salt-lake", "name": "Salt Lake", "daq": "slc", "page": "slc", "area": "Salt Lake City", "same": "049035", "rule": True, "core": True,
      "note": "AirNow's Salt Lake City reading is the highest of eight monitors in Salt Lake and Davis counties."},
-    {"id": "davis", "name": "Davis", "daq": "bv", "page": "bv", "area": "Salt Lake City", "rule": True, "core": True,
+    {"id": "davis", "name": "Davis", "daq": "bv", "page": "bv", "area": "Salt Lake City", "same": "049011", "rule": True, "core": True,
      "note": "Davis has no AirNow area of its own; its Bountiful monitor is part of the Salt Lake City reading."},
-    {"id": "weber", "name": "Weber", "daq": "weber", "page": "hv", "area": "Ogden", "rule": True, "core": True,
+    {"id": "weber", "name": "Weber", "daq": "weber", "page": "hv", "area": "Ogden", "same": "049057", "rule": True, "core": True,
      "note": "AirNow's Ogden reading comes from the Harrisville monitor."},
-    {"id": "utah", "name": "Utah", "daq": "utah", "page": "ln", "area": "Provo", "rule": True, "core": True,
+    {"id": "utah", "name": "Utah", "daq": "utah", "page": "ln", "area": "Provo", "same": "049049", "rule": True, "core": True,
      "note": "AirNow's Provo reading comes from the Lindon and Spanish Fork monitors."},
-    {"id": "cache", "name": "Cache", "daq": "cache", "page": "sm", "area": "Logan", "rule": True, "core": False, "note": None},
-    {"id": "box-elder", "name": "Box Elder", "daq": "boxelder", "page": "bg", "area": "Brigham City", "rule": True, "core": False,
+    {"id": "cache", "name": "Cache", "daq": "cache", "page": "sm", "area": "Logan", "same": "049005", "rule": True, "core": False, "note": None},
+    {"id": "box-elder", "name": "Box Elder", "daq": "boxelder", "page": "bg", "area": "Brigham City", "same": "049003", "rule": True, "core": False,
      "note": "DAQ's Box Elder page says it does not forecast there at this time, but DAQ's data feed lists the days shown."},
-    {"id": "tooele", "name": "Tooele", "daq": "tooele", "page": "ed", "area": "Tooele", "rule": True, "core": False, "note": None},
-    {"id": "wasatch", "name": "Wasatch", "daq": "hb", "page": "hb", "area": None, "rule": False, "core": False,
+    {"id": "tooele", "name": "Tooele", "daq": "tooele", "page": "ed", "area": "Tooele", "same": "049045", "rule": True, "core": False, "note": None},
+    {"id": "wasatch", "name": "Wasatch", "daq": "hb", "page": "hb", "area": None, "same": "049051", "rule": False, "core": False,
      "note": "DAQ forecasts the Heber Valley, but AirNow has no reporting area here."},
 ]
 
 # NWS SAME codes for the counties above plus Summit and Morgan, whose
 # residents share these valleys' alerts.
-ALERT_COUNTIES = {"049035", "049011", "049057", "049049", "049005", "049003",
-                  "049045", "049051", "049043", "049029"}
+ALERT_COUNTIES = {c["same"] for c in COUNTIES} | {"049043", "049029"}
 ALERT_EVENTS = {"Air Quality Alert", "Air Stagnation Advisory", "Dense Smoke Advisory",
                 "Blowing Dust Advisory", "Blowing Dust Warning", "Dust Advisory", "Dust Storm Warning"}
 
@@ -251,6 +251,7 @@ def read_nws_alerts():
                 "event": p.get("event"),
                 "headline": p.get("headline"),
                 "areas": p.get("areaDesc"),
+                "same": sorted(same & ALERT_COUNTIES),
                 "starts": p.get("onset") or p.get("effective"),
                 "ends": p.get("ends") or p.get("expires"),
                 "sender": p.get("senderName"),
@@ -315,7 +316,7 @@ def build(previous):
     counties = []
     for c in COUNTIES:
         old = prev_counties.get(c["id"], {})
-        card = {k: c[k] for k in ("id", "name", "page", "rule", "core", "note")}
+        card = {k: c[k] for k in ("id", "name", "page", "same", "rule", "core", "note")}
         card["area"] = c["area"]
 
         if airnow is not None:

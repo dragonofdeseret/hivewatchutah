@@ -15,6 +15,11 @@
   var REFRESH_MS = 15 * 60 * 1000;
   var POLLUTANT = { "PM2.5": "PM2.5", "PM10": "PM10", "OZONE": "ozone", "O3": "ozone", "CO": "carbon monoxide", "NO2": "nitrogen dioxide", "SO2": "sulfur dioxide" };
   var ACTION = { unrestricted: "Unrestricted", voluntary: "Voluntary", mandatory: "Mandatory" };
+  // Health levels worth planning around: Unhealthy for Sensitive Groups and up.
+  var WATCH_LEVEL = { usg: true, unhealthy: true, "very-unhealthy": true, hazardous: true };
+  var SVG = "http://www.w3.org/2000/svg";
+  var HEX = "4.5,0 2.25,3.9 -2.25,3.9 -4.5,0 -2.25,-3.9 2.25,-3.9";
+  var MAX_WAVE = 7;
   var WEEKDAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   function el(tag, attrs, children) {
@@ -35,6 +40,59 @@
 
   function link(href, text) {
     return el("a", { href: href, rel: "noreferrer", text: text });
+  }
+
+  // The shimmer marker: a hexagon whose rings ripple out once or twice, the
+  // way giant honey bees shimmer to warn off hornets. Markers start a beat
+  // apart, so the ripple runs across the cards like a wave, and every
+  // animation is over within 5 seconds.
+  var wave = 0;
+  function shimmer() {
+    var svg = document.createElementNS(SVG, "svg");
+    svg.setAttribute("class", "shimmer");
+    svg.setAttribute("viewBox", "-12 -12 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    svg.setAttribute("style", "--i: " + Math.min(wave++, MAX_WAVE));
+    ["halo", "ring", "ring", "core"].forEach(function (part) {
+      var hex = document.createElementNS(SVG, "polygon");
+      hex.setAttribute("class", part);
+      hex.setAttribute("points", HEX);
+      svg.appendChild(hex);
+    });
+    return svg;
+  }
+
+  function inEffect(a) {
+    var start = ms(a.starts), end = ms(a.ends), now = Date.now();
+    return (start === null || start <= now) && (end === null || end > now);
+  }
+
+  // Why a county is worth planning around today, if it is: air at
+  // Unhealthy for Sensitive Groups or worse (measured now or forecast for
+  // today), a Voluntary or Mandatory action day under the state rule, or an
+  // air alert in effect for the county. Unknown levels and old readings don't count.
+  function watchReasons(county, todayDay, now, old, alerts) {
+    var reasons = [];
+    var nowBad = now && !old && now.aqi !== null && now.aqi !== undefined && WATCH_LEVEL[now.cat];
+    var dayBad = todayDay && WATCH_LEVEL[todayDay.health];
+    if (nowBad && dayBad && now.cat === todayDay.health) {
+      reasons.push(now.category + " now and forecast today");
+    } else {
+      if (nowBad) reasons.push(now.category + " now");
+      if (dayBad) reasons.push(todayDay.health_label + " forecast today");
+    }
+    if (county.rule && todayDay && todayDay.action_known &&
+        (todayDay.action === "voluntary" || todayDay.action === "mandatory")) {
+      reasons.push(ACTION[todayDay.action] + " action");
+    }
+    alerts.forEach(function (a) {
+      if (county.same && a.same && a.same.indexOf(county.same) !== -1 && inEffect(a) &&
+          reasons.indexOf(a.event) === -1) {
+        reasons.push(a.event || "Weather alert");
+      }
+    });
+    return reasons;
   }
 
   function say(text) {
@@ -63,6 +121,8 @@
   }
 
   function ms(iso) {
+    // new Date(null) is 1970, not invalid; a missing time is unknown.
+    if (iso === null || iso === undefined || iso === "") return null;
     var t = new Date(iso).getTime();
     return isNaN(t) ? null : t;
   }
@@ -133,7 +193,7 @@
     return null;
   }
 
-  function countyCard(county, today, daqOk) {
+  function countyCard(county, today, daqOk, alerts) {
     var now = county.now;
     var days = (county.days || []).filter(function (d) { return d.date >= today; }).slice(0, 3);
     var todayDay = days.length && days[0].date === today ? days[0] : null;
@@ -166,9 +226,11 @@
       ]));
     });
     var note = sourceNote(county, daqOk);
+    var reasons = watchReasons(county, todayDay, now, old, alerts);
 
-    return el("article", { "class": "county" + (old ? " is-old" : ""), "data-cat": cat, "aria-labelledby": "county-" + county.id }, [
+    return el("article", { "class": "county" + (old ? " is-old" : "") + (reasons.length ? " is-watch" : ""), "data-cat": cat, "aria-labelledby": "county-" + county.id }, [
       el("h3", { id: "county-" + county.id, text: county.name + " County" }),
+      reasons.length ? el("p", { "class": "watch" }, [shimmer(), el("span", { text: "Watch: " + reasons.join(" · ") })]) : null,
       nowRow,
       nowMeta,
       el("p", { "class": "sr-only", text: "Forecast: health level, then action level." }),
@@ -187,7 +249,8 @@
     } else if (end !== null) {
       when = "Until " + dayTimeOf(a.ends) + ". ";
     }
-    return el("li", null, [
+    return el("li", { "class": inEffect(a) ? "is-watch" : null }, [
+      inEffect(a) ? shimmer() : null,
       el("strong", { text: (a.event || "Weather alert") + ". " }),
       a.areas ? a.areas.replace(/\.?\s*$/, ". ") : "",
       when.replace(/\.\. $/, ". "),
@@ -203,6 +266,7 @@
     var daqOk = !!(sources.daq_forecast && sources.daq_forecast.ok);
     var dataAt = ms(data.data_at) || ms(data.built_at);
     var frag = document.createDocumentFragment();
+    wave = 0;
 
     if (dataAt === null || Date.now() - dataAt > OLD_DATA_MS) {
       var hours = dataAt === null ? null : Math.round((Date.now() - dataAt) / 3600000);
@@ -228,7 +292,7 @@
     var near = el("div", { "class": "counties" });
     (data.counties || []).forEach(function (c) {
       try {
-        (c.core ? core : near).appendChild(countyCard(c, today, daqOk));
+        (c.core ? core : near).appendChild(countyCard(c, today, daqOk, alerts));
       } catch (e) { /* one bad record shouldn't hide the rest */ }
     });
     frag.appendChild(core);

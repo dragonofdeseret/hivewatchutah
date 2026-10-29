@@ -60,6 +60,7 @@ There is no build step for the pages: edit the HTML file and reload.
 | Guide pages | `site/air.html`, `seasons.html`, `pollen.html`, `breathe.html` |
 | Pollen calendar | the `<table class="cal">` in `site/pollen.html`; each month cell's `data-lvl` is 0 (none), 1 (some), 2 (in season) or 3 (peak) |
 | Burn-day wording on the county cards | `burnLine()` in `site/assets/js/air.js` |
+| When the shimmer marker shows, and its "Watch:" words | `watchReasons()` in `site/assets/js/air.js` |
 | Which counties get cards, and their notes | `COUNTIES` in `scripts/fetch_data.py` |
 | Header menu and footer | repeated in every `site/*.html` file; change all seven together |
 | Who makes this, data sources, privacy | `site/about.html` |
@@ -67,7 +68,7 @@ There is no build step for the pages: edit the HTML file and reload.
 
 Each guide cites its sources next to the claim (the small rounded links) and ends with "Checked [date]". When you re-check a page, update that date.
 
-When `style.css` or a `.js` file changes after launch, bump the `?v=2026-10-24` on its `<link>`/`<script>` tags in every page so browsers fetch the new file.
+When `style.css` or a `.js` file changes after launch, bump the `?v=` date on its `<link>`/`<script>` tags in every page so browsers fetch the new file.
 
 ## Update the Hive Status line
 
@@ -100,6 +101,7 @@ GitHub Actions runs it every 30 minutes (`pages.yml`) and publishes the result w
 - If the DAQ or AirNow data is more than 3 hours old (`data_at` in the file), the page shows a "these numbers are N hours old" warning and points to air.utah.gov. A single reading older than 3 hours is dimmed. A tab left open refreshes itself every 15 minutes.
 - Repeated DAQ rows for one county and day are merged, keeping the worse level. Unreadable AirNow rows are skipped, not fatal.
 - GitHub turns off scheduled workflows in public repos after 60 days without a commit. `keepalive.yml` re-enables them weekly. If the warning ever appears and stays, open the repo's **Actions** tab and re-enable **Deploy site**.
+- A card gets the **shimmer marker** (a gold hexagon whose rings ripple out, after giant honey bees' shimmering) and a "Watch:" line when its county has something to plan around today: AQI now or today's forecast at Unhealthy for Sensitive Groups or worse, a Voluntary or Mandatory action day under the state rule, or an NWS air alert in effect for that county (matched by SAME code). Old readings and unknown words don't trigger it. Alerts in effect get the marker too. The ripple runs twice and stops within 5 seconds, and stays still for anyone who has reduced motion turned on.
 - Pollen has no live data. The only active certified counter (AAAAI National Allergy Bureau, Intermountain's Riverton station) forbids reuse without written permission, so the site links to it.
 
 AirNow's [Data Exchange Guidelines](https://docs.airnowapi.org/docs/DataUseGuidelines.pdf) ask for credit (in every footer), "preliminary" labels (on the home page and footer), official AQI colors (in `style.css`, not themed), unaltered values, and notice to AirNow and the state agency. See the to-do list.
