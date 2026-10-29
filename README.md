@@ -13,7 +13,7 @@ It's a plain static site: HTML, CSS and a little JavaScript. One Python script t
 
 HiveAir Utah is for education only. It is not medical advice, not an official alert, and not affiliated with Utah DEQ, EPA, AirNow, the National Weather Service, AAAAI, or any government agency.
 
-> Called **HiveWatch Utah** until Oct 29, 2026. The site still lives at hivewatchutah.com (and this repo and folder keep the old name) until hiveairutah.com is bought; see the to-do list.
+> Called **HiveWatch Utah** until Oct 29, 2026. The site still lives at hivewatchutah.com (and the GitHub repo keeps the old name) until hiveairutah.com is bought; see the to-do list. The project folder became `Websites/HiveAir` the same day.
 >
 > The first version of HiveWatch (Oct 22, 2026, the first commit) was a scanner and tip-routing site. That content moved to its own project, **Wasatch Wire** (`Websites/WasatchWire`).
 
