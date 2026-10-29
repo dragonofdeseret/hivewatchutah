@@ -1,8 +1,8 @@
-/* HiveWatch Utah
+/* HiveAir Utah
    Chrome adapted from the Prepare Utah visual language (serif headings,
    sticky header, emergency strip, cards), set in a dark night palette:
    deep blue-black ground, warm cream type, honey accents. Prepare Utah
-   and FaultLine Utah stay light; HiveWatch is the night-shift sibling.
+   and FaultLine Utah stay light; HiveAir is the night-shift sibling.
 
    Every color lives in :root below. Print switches back to a light
    palette at the bottom of this file.
@@ -734,6 +734,46 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
 .shimmer .halo { transform: scale(1.7); opacity: .35; }
 .shimmer .ring { opacity: 0; animation: shimmer 1.6s ease-out calc(var(--i, 0) * 140ms) 2 both; }
 .shimmer .ring + .ring { animation-delay: calc(var(--i, 0) * 140ms + 500ms); }
+/* Common questions on Seasons. */
+.faq h3 { margin: 1.4em 0 .35em; font-size: 1.12rem; }
+.faq h3:first-child { margin-top: 0; }
+
+/* Right now along the Front: the summary box above the county cards. */
+.front-now {
+  margin: 0 0 16px;
+  padding: 16px 18px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--cat, var(--line-strong));
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: var(--shadow);
+}
+.front-now .front-label { margin: 0 0 8px; font-family: var(--sans); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.front-now .now { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin: 0 0 4px; }
+.front-now .aqi-num { font-size: 2.8rem; }
+.front-now > p { margin: 0 0 6px; max-width: 46rem; }
+.front-now .now-meta { margin-bottom: 10px; }
+.front-now .watch { margin: 8px 0 0; }
+.tip { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--bg-2); font-size: .9rem; max-width: 46rem; }
+.tip p { margin: 0 0 4px; }
+.tip p:last-child { margin-bottom: 0; }
+
+/* AQI by pollutant, and the 24-hour history strip, on each card. */
+.params { list-style: none; display: flex; flex-wrap: wrap; gap: 2px 12px; padding: 0; margin: -4px 0 10px; font-size: .8rem; color: var(--ink-soft); }
+.params li { margin: 0; white-space: nowrap; }
+.params .dot { width: .6em; height: .6em; margin-right: 4px; }
+.hist { margin: 0 0 10px; }
+.hist svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* As with .dot: only a column with its own level takes a color, never the card's. */
+.hist .bar { fill: var(--muted); }
+.hist .bar[data-cat] { fill: var(--cat); }
+.hist .bar[data-cat="very-unhealthy"], .hist .bar[data-cat="hazardous"] { stroke: rgba(255, 255, 255, .45); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.hist .base { stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.hist .ref { stroke: var(--muted); stroke-width: 1; opacity: .55; vector-effect: non-scaling-stroke; }
+.hist .hit { fill: transparent; }
+.hist .hit:hover { fill: rgba(255, 255, 255, .07); }
+.hist-cap { margin: 4px 0 0; font-size: .76rem; color: var(--muted); }
+
 @keyframes shimmer {
   0% { transform: scale(1); opacity: 0; }
   15% { opacity: .85; }
@@ -782,6 +822,8 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
   table.cal td[data-lvl="1"], table.cal td[data-lvl="2"], table.cal td[data-lvl="3"] { forced-color-adjust: none; }
   .shimmer .core { fill: CanvasText; }
   .shimmer .halo, .shimmer .ring { stroke: CanvasText; }
+  .hist .bar { stroke: CanvasText; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .hist .ref, .hist .base { stroke: CanvasText; opacity: 1; }
 }
 
 /* Paper is light. Swap the palette back so printed pages stay legible. */
@@ -809,7 +851,10 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
   .shimmer .core { fill: #000; }
   .shimmer .halo { stroke: #000; }
   .shimmer .ring { display: none; }
+  .hist .bar { stroke: #000; stroke-width: .5; }
+  .hist .ref { stroke: #000; opacity: 1; }
   .src { color: #000; border-color: #999; }
-  .aqi-chip, .dot, table.cal td, .cal-key li::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .aqi-chip, .dot, .hist .bar, table.cal td, .cal-key li::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .front-now, .tip { box-shadow: none; background: #fff; break-inside: avoid; }
   a { color: #000; }
 }

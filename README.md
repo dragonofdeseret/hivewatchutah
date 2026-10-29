@@ -1,18 +1,20 @@
-# HiveWatch Utah
+# HiveAir Utah
 
 **The air we all share.** A calm, plain-language air quality and pollen site for the Wasatch Front (Salt Lake, Davis, Utah and Weber counties, plus Cache, Box Elder, Tooele and Wasatch), at hivewatchutah.com. Sister site to [Prepare Utah](https://prepareutah.com/) (household readiness) and [FaultLine Utah](https://faultlineutah.com/) (earthquake hazards by address).
 
-- **Home** (`index.html`): **Today along the Front**, live county cards built every 30 minutes from Utah DAQ and EPA AirNow (AQI now, 3-day health forecast, burn level, smoke and dust alerts), plus the hand-typed Hive Status line and the four guides.
+- **Home** (`index.html`): **Today along the Front**, built every 30 minutes from Utah DAQ and EPA AirNow: a **Right now along the Front** box (the highest current reading in the four core counties, today's forecast and burn levels, which counties are on watch, and what to do at today's worst level), then a card per county (AQI now, AQI by pollutant, the past 24 hours, 3-day health forecast, burn level, smoke and dust alerts). Below that, the hand-typed Hive Status line and the four guides.
 - **Air** (`air.html`): the AQI in six colors, health level versus action (burn) level, the burn rules, monitors versus sensors versus models, and which forecast covers each county.
-- **Seasons** (`seasons.html`): winter inversions, summer ozone, wildfire smoke, Great Salt Lake dust, who breathes the worst air, and what Utah is doing.
+- **Seasons** (`seasons.html`): winter inversions, summer ozone, wildfire smoke, Great Salt Lake dust, who breathes the worst air, what Utah is doing, and common questions written the way people search.
 - **Pollen** (`pollen.html`): the pollen calendar, local plants, how to read a count, where to find a real one, and when to get care.
 - **Breathe** (`breathe.html`): what to do at each level, a clean-air room, filters, masks, timing, schools, and when to get care.
 - **About** (`about.html`): a short note on who makes the site, where the numbers come from, and privacy.
 
 It's a plain static site: HTML, CSS and a little JavaScript. One Python script turns three public feeds into a small `site/data/air.json`. Visitors' browsers load only this site: no accounts, cookies, analytics, outside fonts, or calls to the agencies.
 
-HiveWatch Utah is for education only. It is not medical advice, not an official alert, and not affiliated with Utah DEQ, EPA, AirNow, the National Weather Service, AAAAI, or any government agency.
+HiveAir Utah is for education only. It is not medical advice, not an official alert, and not affiliated with Utah DEQ, EPA, AirNow, the National Weather Service, AAAAI, or any government agency.
 
+> Called **HiveWatch Utah** until Oct 29, 2026. The site still lives at hivewatchutah.com (and this repo and folder keep the old name) until hiveairutah.com is bought; see the to-do list.
+>
 > The first version of HiveWatch (Oct 22, 2026, the first commit) was a scanner and tip-routing site. That content moved to its own project, **Wasatch Wire** (`Websites/WasatchWire`).
 
 ## Folders
@@ -61,6 +63,8 @@ There is no build step for the pages: edit the HTML file and reload.
 | Pollen calendar | the `<table class="cal">` in `site/pollen.html`; each month cell's `data-lvl` is 0 (none), 1 (some), 2 (in season) or 3 (peak) |
 | Burn-day wording on the county cards | `burnLine()` in `site/assets/js/air.js` |
 | When the shimmer marker shows, and its "Watch:" words | `watchReasons()` in `site/assets/js/air.js` |
+| The Right now box | `frontSummary()` in `site/assets/js/air.js` |
+| The what-to-do tips in the Right now box | `TIPS` in `site/assets/js/air.js`, copied from the level cards in `site/breathe.html#levels`; change both together |
 | Which counties get cards, and their notes | `COUNTIES` in `scripts/fetch_data.py` |
 | Header menu and footer | repeated in every `site/*.html` file; change all seven together |
 | Who makes this, data sources, privacy | `site/about.html` |
@@ -68,7 +72,7 @@ There is no build step for the pages: edit the HTML file and reload.
 
 Each guide cites its sources next to the claim (the small rounded links) and ends with "Checked [date]". When you re-check a page, update that date.
 
-When `style.css` or a `.js` file changes after launch, bump the `?v=` date on its `<link>`/`<script>` tags in every page so browsers fetch the new file.
+When `style.css` or a `.js` file changes after launch, bump the `?v=` date on its `<link>`/`<script>` tags in every page so browsers fetch the new file. A second change on the same day needs a suffix (`?v=2026-10-29b`).
 
 ## Update the Hive Status line
 
@@ -102,6 +106,7 @@ GitHub Actions runs it every 30 minutes (`pages.yml`) and publishes the result w
 - Repeated DAQ rows for one county and day are merged, keeping the worse level. Unreadable AirNow rows are skipped, not fatal.
 - GitHub turns off scheduled workflows in public repos after 60 days without a commit. `keepalive.yml` re-enables them weekly. If the warning ever appears and stays, open the repo's **Actions** tab and re-enable **Deploy site**.
 - A card gets the **shimmer marker** (a gold hexagon whose rings ripple out, after giant honey bees' shimmering) and a "Watch:" line when its county has something to plan around today: AQI now or today's forecast at Unhealthy for Sensitive Groups or worse, a Voluntary or Mandatory action day under the state rule, or an NWS air alert in effect for that county (matched by SAME code). Old readings and unknown words don't trigger it. Alerts in effect get the marker too. The ripple runs twice and stops within 5 seconds, and stays still for anyone who has reduced motion turned on.
+- Each card keeps its county's AirNow readings for the past 24 hours in `history` (from the previous `air.json` plus the new reading), shown as a strip of hourly columns in the AQI colors with a hairline at 100. The strip fills in over the first day after a fresh start, and needs at least two readings to show.
 - Pollen has no live data. The only active certified counter (AAAAI National Allergy Bureau, Intermountain's Riverton station) forbids reuse without written permission, so the site links to it.
 
 AirNow's [Data Exchange Guidelines](https://docs.airnowapi.org/docs/DataUseGuidelines.pdf) ask for credit (in every footer), "preliminary" labels (on the home page and footer), official AQI colors (in `style.css`, not themed), unaltered values, and notice to AirNow and the state agency. See the to-do list.
@@ -145,6 +150,7 @@ The repo's Settings → Pages has Source set to **GitHub Actions**, `hivewatchut
 - [x] Register **hivewatchutah.com** (GoDaddy, Oct 22, 2026).
 - [x] Create the GitHub repo, push, and turn on GitHub Pages with the custom domain (Oct 27, 2026).
 - [x] Point GoDaddy DNS at GitHub Pages (table above), then turn on Enforce HTTPS (Oct 27, 2026).
+- [ ] **Move to hiveairutah.com** (renamed from HiveWatch Utah on Oct 29, 2026; wait for the go-ahead). Buy the domain, then: add the same GoDaddy DNS records as above, change the repo's Pages custom domain to `hiveairutah.com` and wait for the certificate before turning on Enforce HTTPS; replace `hivewatchutah.com` in every page's `canonical`, `og:url` and `og:image`, in `sitemap.xml`, `robots.txt`, the printed URL beside "Today on the home page" in `air.html`, `USER_AGENT` in `scripts/fetch_data.py`, the header comment in `.github/workflows/pages.yml`, the share image (`swift scripts/make_images.swift`) and this README; then forward hivewatchutah.com to the new domain with GoDaddy's domain forwarding (301), since one Pages site serves only one custom domain. Optional: rename the repo, and the commit email in `git config user.email`.
 - [ ] Set up a contact mailbox (for example `hello@hivewatchutah.com`). Add it to About and to `USER_AGENT` in `scripts/fetch_data.py` (NWS asks API users for contact details).
 - [ ] AirNow: register a free AirNow API account (its fact sheet says one is required, even for the files this site reads), sign and return the Data Exchange Guidelines form to dmc@airnowtech.org, and tell Utah DAQ the site uses its data.
 - [ ] Optional: ask AAAAI (nab@aaaai.org) and Intermountain's Southridge allergy clinic for written permission to show the Riverton pollen counts with credit.

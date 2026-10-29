@@ -35,7 +35,7 @@ from datetime import datetime, timedelta, timezone
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "site", "data", "air.json")
 
-USER_AGENT = "HiveWatchUtah/1.0 (+https://hivewatchutah.com)"
+USER_AGENT = "HiveAirUtah/1.0 (+https://hivewatchutah.com)"
 
 DAQ_FORECAST = "https://air.utah.gov/csvFeed.php?id=forecast"
 AIRNOW_AREAS = "https://files.airnowtech.org/airnow/today/reportingarea.dat"
@@ -266,6 +266,25 @@ def parse_time(s):
         return None
 
 
+HISTORY_HOURS = 24
+
+
+def history(previous, now, built):
+    """The card's AQI readings for the last 24 hours, oldest first: the ones
+    kept in the previous air.json plus the current reading, one per
+    observation time (AirNow updates hourly; a revised hour replaces the old)."""
+    cutoff = built - timedelta(hours=HISTORY_HOURS)
+    keep = {}
+    for h in previous or []:
+        t = parse_time(h.get("t"))
+        if t and t.tzinfo and cutoff < t <= built + timedelta(hours=2) and isinstance(h.get("aqi"), int):
+            keep[t] = {"t": h["t"], "aqi": h["aqi"], "cat": h.get("cat")}
+    t = parse_time((now or {}).get("observed_at"))
+    if t and t.tzinfo and t > cutoff and isinstance(now.get("aqi"), int):
+        keep[t] = {"t": now["observed_at"], "aqi": now["aqi"], "cat": now.get("cat")}
+    return [keep[k] for k in sorted(keep)]
+
+
 def current_alerts(alerts, when):
     """Drop alerts that have already ended."""
     keep = []
@@ -323,6 +342,7 @@ def build(previous):
             card["now"] = airnow[0].get(c["area"]) if c["area"] else None
         else:
             card["now"] = old.get("now")
+        card["history"] = history(old.get("history"), card["now"], built) if c["area"] else []
 
         # Forecast days, best source first. days_note says why a card isn't
         # showing a fresh DAQ forecast: "daq-down" (DAQ didn't answer) or

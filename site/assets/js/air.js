@@ -20,6 +20,25 @@
   var SVG = "http://www.w3.org/2000/svg";
   var HEX = "4.5,0 2.25,3.9 -2.25,3.9 -4.5,0 -2.25,-3.9 2.25,-3.9";
   var MAX_WAVE = 7;
+  var RANK = { good: 0, moderate: 1, usg: 2, unhealthy: 3, "very-unhealthy": 4, hazardous: 5 };
+  var LEVEL = { good: "Good", moderate: "Moderate", usg: "Unhealthy for Sensitive Groups", unhealthy: "Unhealthy", "very-unhealthy": "Very Unhealthy", hazardous: "Hazardous" };
+  var PARAM = { "PM2.5": "PM2.5", "PM10": "PM10", "OZONE": "Ozone", "O3": "Ozone", "CO": "CO", "NO2": "NO₂", "SO2": "SO₂" };
+  var HOUR_MS = 3600 * 1000;
+  // EPA's AQI breakpoints, for a reading whose category word we don't recognize.
+  function levelOf(aqi) {
+    if (typeof aqi !== "number") return null;
+    return aqi <= 50 ? "good" : aqi <= 100 ? "moderate" : aqi <= 150 ? "usg" : aqi <= 200 ? "unhealthy" : aqi <= 300 ? "very-unhealthy" : "hazardous";
+  }
+  // What to do at each level. Copied from the level cards on breathe.html
+  // (#levels), which cite EPA; change both together.
+  var TIPS = {
+    good: ["Enjoy being active outside.", "The same. The air carries little or no risk."],
+    moderate: ["Being active outside is still fine.", "Only people who are unusually sensitive may want to adjust, by keeping outdoor activity shorter and easier. A cough or shortness of breath means ease off (ozone) or go inside (PM2.5)."],
+    usg: ["Most people are less likely to be affected. On ozone days, EPA suggests everyone consider going shorter and easier.", "Keep outdoor activity shorter and lighter, take more breaks, and watch for coughing or shortness of breath. On ozone days, plan outdoor time for the morning."],
+    unhealthy: ["Cut back on long or hard outdoor activity, take more breaks, and head indoors if symptoms start. On ozone days, move it to the morning.", "Skip long or intense outdoor activity. Think about moving it indoors or to another day."],
+    "very-unhealthy": ["Limit outdoor activity and head indoors if symptoms start. With ozone, avoid long or hard exertion and favor the morning.", "Skip all outdoor physical activity. Move it inside or wait for better air."],
+    hazardous: ["Skip all outdoor physical activity.", "Stay indoors, keep activity light, and keep indoor particle levels low, as in a clean-air room."]
+  };
   var WEEKDAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   function el(tag, attrs, children) {
@@ -63,6 +82,11 @@
     return svg;
   }
 
+  // ["a"] -> "a"; ["a", "b"] -> "a and b"; ["a", "b", "c"] -> "a, b and c"
+  function listOf(words) {
+    return words.length < 2 ? words.join("") : words.slice(0, -1).join(", ") + " and " + words[words.length - 1];
+  }
+
   function inEffect(a) {
     var start = ms(a.starts), end = ms(a.ends), now = Date.now();
     return (start === null || start <= now) && (end === null || end > now);
@@ -74,12 +98,14 @@
   // air alert in effect for the county. Unknown levels and old readings don't count.
   function watchReasons(county, todayDay, now, old, alerts) {
     var reasons = [];
-    var nowBad = now && !old && now.aqi !== null && now.aqi !== undefined && WATCH_LEVEL[now.cat];
+    var nowCat = now ? (now.cat in RANK ? now.cat : levelOf(now.aqi)) : null;
+    var nowBad = now && !old && now.aqi !== null && now.aqi !== undefined && WATCH_LEVEL[nowCat];
+    var nowWords = now ? now.category || LEVEL[nowCat] : "";
     var dayBad = todayDay && WATCH_LEVEL[todayDay.health];
-    if (nowBad && dayBad && now.cat === todayDay.health) {
-      reasons.push(now.category + " now and forecast today");
+    if (nowBad && dayBad && nowCat === todayDay.health) {
+      reasons.push(nowWords + " now and forecast today");
     } else {
-      if (nowBad) reasons.push(now.category + " now");
+      if (nowBad) reasons.push(nowWords + " now");
       if (dayBad) reasons.push(todayDay.health_label + " forecast today");
     }
     if (county.rule && todayDay && todayDay.action_known &&
@@ -135,6 +161,10 @@
   function dayTimeOf(iso) { var t = ms(iso); return t === null ? "" : tidy(dayAndClock.format(new Date(t))); }
 
   function todayInUtah() { return isoDay.format(new Date()); }
+  // Just the time for today, the weekday too for an earlier day.
+  function whenOf(iso) { var t = ms(iso); return t === null ? "" : isoDay.format(new Date(t)) === todayInUtah() ? timeOf(iso) : dayTimeOf(iso); }
+  // Ends a sentence once, even after "a.m."
+  function stop(s) { return /\.$/.test(s) ? s : s + "."; }
 
   function dayLabel(date, today) {
     if (date === today) return "Today";
@@ -193,15 +223,162 @@
     return null;
   }
 
-  function countyCard(county, today, daqOk, alerts) {
+  // What a card and the Front summary both need to know about a county.
+  function factsFor(county, today) {
     var now = county.now;
     var days = (county.days || []).filter(function (d) { return d.date >= today; }).slice(0, 3);
     var todayDay = days.length && days[0].date === today ? days[0] : null;
-    var cat = now && now.cat ? now.cat : (todayDay && todayDay.health) || null;
     var seen = now ? ms(now.observed_at) : null;
     var old = seen !== null && Date.now() - seen > OLD_READING_MS;
+    var hasNow = !!(now && typeof now.aqi === "number");
+    var cat = hasNow ? (now.cat in RANK ? now.cat : levelOf(now.aqi)) : null;
+    return { today: today, now: now, days: days, todayDay: todayDay, old: old, fresh: hasNow && !old, cat: cat };
+  }
 
-    var nowRow = null, nowMeta;
+  // AQI by pollutant, highest first, when AirNow reports more than one.
+  function paramList(now) {
+    var params = (now.params || []).filter(function (p) { return typeof p.aqi === "number"; });
+    if (params.length < 2) return null;
+    params.sort(function (a, b) { return b.aqi - a.aqi; });
+    return el("ul", { "class": "params", "aria-label": "AQI by pollutant" }, params.map(function (p) {
+      return el("li", null, [
+        el("span", { "class": "dot", "data-cat": p.cat in RANK ? p.cat : null, "aria-hidden": "true" }),
+        (PARAM[p.pollutant] || p.pollutant) + " " + p.aqi,
+        p.category ? el("span", { "class": "sr-only", text: " (" + p.category + ")" }) : null
+      ]);
+    }));
+  }
+
+  function svgEl(tag, attrs, children) {
+    var node = document.createElementNS(SVG, tag);
+    for (var k in attrs) if (attrs[k] !== null && attrs[k] !== undefined) node.setAttribute(k, attrs[k]);
+    (children || []).forEach(function (c) { if (c) node.appendChild(c); });
+    return node;
+  }
+
+  // The past 24 hours of AQI as small columns, one slot per hour, in the
+  // AQI colors. A hairline marks 100, where Unhealthy for Sensitive Groups
+  // starts. Hover a column for its hour and value; the caption names the high.
+  function historyStrip(county) {
+    var byHour = {}, last = null;
+    (county.history || []).forEach(function (h) {
+      var t = ms(h.t);
+      if (t === null || typeof h.aqi !== "number") return;
+      var hour = Math.floor(t / HOUR_MS) * HOUR_MS;
+      byHour[hour] = h;
+      if (last === null || hour > last) last = hour;
+    });
+    var hours = Object.keys(byHour).filter(function (k) { return last - k < 24 * HOUR_MS; });
+    if (hours.length < 2) return null;
+
+    var W = 240, H = 40, BASE = 38, SLOT = W / 24, BAR = SLOT - 2;
+    var peak = null;
+    hours.forEach(function (k) { if (!peak || byHour[k].aqi > peak.aqi) peak = byHour[k]; });
+    var low = Math.min.apply(null, hours.map(function (k) { return byHour[k].aqi; }));
+    var top = Math.max(150, peak.aqi);
+    function y(aqi) { return BASE - (Math.min(aqi, top) / top) * (BASE - 2); }
+
+    var marks = [];
+    for (var i = 0; i < 24; i++) {
+      var hour = last - (23 - i) * HOUR_MS, h = byHour[hour], x = i * SLOT + 1;
+      var label = whenOf(new Date(hour).toISOString()) + ": " + (h ? "AQI " + h.aqi + ", " + LEVEL[h.cat in RANK ? h.cat : levelOf(h.aqi)] : "no reading");
+      if (h) {
+        var topY = Math.min(y(h.aqi), BASE - 1.5), r = Math.min(2, BAR / 2, BASE - topY);
+        marks.push(svgEl("path", { "class": "bar", "data-cat": h.cat in RANK ? h.cat : levelOf(h.aqi),
+          d: "M" + x + " " + BASE + "V" + (topY + r) + "Q" + x + " " + topY + " " + (x + r) + " " + topY +
+             "H" + (x + BAR - r) + "Q" + (x + BAR) + " " + topY + " " + (x + BAR) + " " + (topY + r) + "V" + BASE + "Z" }));
+      }
+      var hit = svgEl("rect", { "class": "hit", x: i * SLOT, y: 0, width: SLOT, height: H });
+      hit.appendChild(svgEl("title", {}, [document.createTextNode(label)]));
+      marks.push(hit);
+    }
+    var y100 = y(100);
+    var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, role: "img", focusable: "false",
+      "aria-label": stop("AQI over the past 24 hours: " + low + " to " + peak.aqi + ", highest " + whenOf(peak.t)) + " Readings for " + hours.length + " of 24 hours." },
+      [svgEl("line", { "class": "ref", x1: 0, x2: W, y1: y100, y2: y100 }),
+       svgEl("line", { "class": "base", x1: 0, x2: W, y1: BASE + .5, y2: BASE + .5 })].concat(marks));
+    return el("div", { "class": "hist" }, [svg,
+      el("p", { "class": "hist-cap", "aria-hidden": "true", text: "Past 24 hours · high " + peak.aqi + ", " + whenOf(peak.t) + " · line at 100" })]);
+  }
+
+  // One box above the cards that answers "how is the air?" for the four
+  // Front counties: the highest current reading, today's forecast and burn
+  // levels, which counties are on watch, and what to do at today's worst level.
+  function frontSummary(rows) {
+    var core = rows.filter(function (r) { return r.county.core; });
+    if (!core.length) return null;
+
+    var top = null;
+    core.forEach(function (r) {
+      if (r.f.fresh && (!top || r.f.now.aqi > top.now.aqi)) top = { now: r.f.now, cat: r.f.cat, county: r.county };
+    });
+
+    // Forecast: counties grouped by level, worst first.
+    var groups = {}, odd = [], missing = [];
+    core.forEach(function (r) {
+      var d = r.f.todayDay;
+      if (d && d.health in RANK) (groups[d.health] = groups[d.health] || []).push(r.county.name);
+      else if (d && d.health_label) odd.push("“" + d.health_label + "” in " + r.county.name + " (as DAQ lists it)");
+      else missing.push(r.county.name);
+    });
+    var levels = Object.keys(groups).sort(function (a, b) { return RANK[b] - RANK[a]; });
+    var parts = levels.map(function (l) { return LEVEL[l] + " in " + listOf(groups[l]); }).concat(odd);
+    var forecast;
+    if (levels.length === 1 && !odd.length && !missing.length) forecast = LEVEL[levels[0]] + " in all " + (core.length === 4 ? "four" : core.length) + " counties.";
+    else if (!parts.length) forecast = "not available yet. Check Utah DAQ.";
+    else forecast = parts.join("; ") + (missing.length ? "; not available for " + listOf(missing) : "") + ".";
+
+    // Burning: Voluntary and Mandatory counties, or a clear "none".
+    var acts = { mandatory: [], voluntary: [] }, unfamiliar = [], unknown = [], ruled = 0;
+    core.forEach(function (r) {
+      var d = r.f.todayDay;
+      if (!r.county.rule) return;
+      ruled++;
+      if (d && d.action_known && acts[d.action]) acts[d.action].push(r.county.name);
+      else if (d && d.action && !d.action_known) unfamiliar.push(r.county.name);
+      else if (!(d && d.action_known && d.action === "unrestricted")) unknown.push(r.county.name);
+    });
+    var burn = [];
+    if (acts.mandatory.length) burn.push("Mandatory action in " + listOf(acts.mandatory) + ".");
+    if (acts.voluntary.length) burn.push("Voluntary action in " + listOf(acts.voluntary) + ".");
+    if (unfamiliar.length) burn.push("DAQ lists an unfamiliar level for " + listOf(unfamiliar) + ".");
+    if (unknown.length === ruled) burn.push("Burn levels aren’t available right now. Check Utah DAQ.");
+    else if (unknown.length) burn.push("Not available for " + listOf(unknown) + ".");
+    if (acts.mandatory.length || acts.voluntary.length || unfamiliar.length) burn.push("See each county for what it means.");
+    else if (!unknown.length) burn.push("No state burn restrictions today.");
+
+    var watching = rows.filter(function (r) { return r.reasons.length; }).map(function (r) { return r.county.name; });
+
+    // Tips follow the worse of the current high and today's worst forecast.
+    var level = levels.length ? levels[0] : null;
+    if (top && (!level || RANK[top.cat] > RANK[level])) level = top.cat;
+
+    var cat = top ? top.cat : level;
+    return el("section", { "class": "front-now", "data-cat": cat, "aria-labelledby": "front-now-title" }, [
+      el("h3", { "class": "front-label", id: "front-now-title", text: "Right now along the Front" }),
+      top ? el("p", { "class": "now" }, [
+        el("span", { "class": "aqi-num", text: String(top.now.aqi) }),
+        el("span", { "class": "aqi-chip", "data-cat": top.cat, text: top.now.category || LEVEL[top.cat] })
+      ]) : null,
+      el("p", { "class": "now-meta", text: top
+        ? stop("Highest current reading in Salt Lake, Davis, Weber and Utah counties: AirNow " + (top.now.area || top.county.name) + ", " +
+          (POLLUTANT[top.now.pollutant] || top.now.pollutant || "pollutant not given") + (timeOf(top.now.observed_at) ? ", " + timeOf(top.now.observed_at) : ""))
+        : "No current AirNow reading for Salt Lake, Davis, Weber or Utah counties." }),
+      el("p", null, [el("strong", { text: "Forecast today: " }), forecast]),
+      el("p", null, [el("strong", { text: "Burning: " }), burn.join(" ")]),
+      watching.length ? el("p", { "class": "watch" }, [shimmer(), el("span", { text: "Watch today: " + listOf(watching) + "." })]) : null,
+      level && TIPS[level] ? el("div", { "class": "tip" }, [
+        el("p", null, [el("strong", { text: "For " + LEVEL[level] + " air. " }), "Everyone: " + TIPS[level][0]]),
+        el("p", null, ["Sensitive groups: " + TIPS[level][1] + " ", link("breathe.html#level-" + level, "What to do at each level")])
+      ]) : null
+    ]);
+  }
+
+  function countyCard(county, f, daqOk, reasons) {
+    var now = f.now, days = f.days, todayDay = f.todayDay, old = f.old;
+    var cat = now && now.cat ? now.cat : (todayDay && todayDay.health) || null;
+
+    var nowRow = null, nowMeta, extras = [];
     if (now && now.aqi !== null && now.aqi !== undefined) {
       nowRow = el("p", { "class": "now" }, [
         el("span", { "class": "aqi-num", text: String(now.aqi) }),
@@ -210,6 +387,7 @@
       var when = old ? dayTimeOf(now.observed_at) + ", an older reading" : timeOf(now.observed_at);
       nowMeta = el("p", { "class": "now-meta", text:
         "AQI now (" + (POLLUTANT[now.pollutant] || now.pollutant || "pollutant not given") + ") · AirNow " + (now.area || "") + (when ? " · " + when : "") });
+      if (!old) extras = [paramList(now), historyStrip(county)];
     } else {
       nowMeta = el("p", { "class": "now-meta", text: county.area ? "No current AirNow reading." : "No AirNow monitor reading for this county." });
     }
@@ -221,24 +399,24 @@
     days.forEach(function (d) {
       var words = (d.health_label || "Not given") + (d.action ? " · " + (ACTION[d.action] || d.action) : "");
       list.appendChild(el("div", null, [
-        el("dt", { text: dayLabel(d.date, today) }),
+        el("dt", { text: dayLabel(d.date, f.today) }),
         el("dd", null, [el("span", { "class": "dot", "data-cat": d.health, "aria-hidden": "true" }), words])
       ]));
     });
     var note = sourceNote(county, daqOk);
-    var reasons = watchReasons(county, todayDay, now, old, alerts);
 
     return el("article", { "class": "county" + (old ? " is-old" : "") + (reasons.length ? " is-watch" : ""), "data-cat": cat, "aria-labelledby": "county-" + county.id }, [
       el("h3", { id: "county-" + county.id, text: county.name + " County" }),
       reasons.length ? el("p", { "class": "watch" }, [shimmer(), el("span", { text: "Watch: " + reasons.join(" · ") })]) : null,
       nowRow,
-      nowMeta,
+      nowMeta
+    ].concat(extras, [
       el("p", { "class": "sr-only", text: "Forecast: health level, then action level." }),
       list,
       note ? el("p", { "class": "source-line", text: note }) : null,
       el("p", { "class": "burn" }, [el("strong", { text: "Burning: " })].concat(burnLine(county, todayDay))),
       county.note ? el("p", { "class": "note-line", text: county.note }) : null
-    ]);
+    ]));
   }
 
   function alertItem(a) {
@@ -280,6 +458,18 @@
       var end = ms(a.ends);
       return end === null || end > Date.now();
     });
+    var rows = [];
+    (data.counties || []).forEach(function (c) {
+      try {
+        var f = factsFor(c, today);
+        rows.push({ county: c, f: f, reasons: watchReasons(c, f.todayDay, f.now, f.old, alerts) });
+      } catch (e) { /* one bad record shouldn't hide the rest */ }
+    });
+    try {
+      var summary = frontSummary(rows);
+      if (summary) frag.appendChild(summary);
+    } catch (e) { /* the cards still show */ }
+
     if (alerts.length) {
       var ul = el("ul", { "class": "today-alerts" });
       alerts.forEach(function (a) {
@@ -290,9 +480,9 @@
 
     var core = el("div", { "class": "counties core" });
     var near = el("div", { "class": "counties" });
-    (data.counties || []).forEach(function (c) {
+    rows.forEach(function (r) {
       try {
-        (c.core ? core : near).appendChild(countyCard(c, today, daqOk, alerts));
+        (r.county.core ? core : near).appendChild(countyCard(r.county, r.f, daqOk, r.reasons));
       } catch (e) { /* one bad record shouldn't hide the rest */ }
     });
     frag.appendChild(core);
@@ -313,7 +503,7 @@
       if (sources.airnow && !sources.airnow.ok) stale.push("AirNow");
       if (sources.daq_forecast && !sources.daq_forecast.ok) stale.push("Utah DAQ");
       if (sources.nws && !sources.nws.ok) stale.push("NWS");
-      meta.textContent = (updated ? "Updated " + updated + " Mountain Time." : "") +
+      meta.textContent = (updated ? "Updated " + updated + " Mountain Time, from Utah DAQ forecasts and EPA AirNow monitors." : "From Utah DAQ forecasts and EPA AirNow monitors.") +
         (stale.length ? " Could not reach " + stale.join(", ") + " at the last update, so those parts are older." : "");
     }
     say(("Air readings loaded" + (updated ? ", updated " + updated : "")).replace(/\.?$/, "."));

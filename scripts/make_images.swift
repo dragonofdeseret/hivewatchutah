@@ -112,7 +112,7 @@ render(1200, 630, to: "share.png") { c in
   c.strokePath()
 
   text("WASATCH FRONT AIR AND POLLEN", font: .systemFont(ofSize: 26, weight: .semibold), color: gold, at: CGPoint(x: 86, y: 168), kern: 4)
-  text("HiveWatch Utah", font: serifBold, color: head, at: CGPoint(x: 80, y: 278))
+  text("HiveAir Utah", font: serifBold, color: head, at: CGPoint(x: 80, y: 278))
   text("The air we all share, in plain words.", font: serif, color: ink, at: CGPoint(x: 84, y: 352))
   text("Today\u{2019}s air and burn days from Utah DAQ and EPA AirNow.", font: .systemFont(ofSize: 27, weight: .regular),
        color: inkSoft, at: CGPoint(x: 84, y: 404))
