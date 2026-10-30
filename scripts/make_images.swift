@@ -116,5 +116,5 @@ render(1200, 630, to: "share.png") { c in
   text("The air we all share, in plain words.", font: serif, color: ink, at: CGPoint(x: 84, y: 352))
   text("Today\u{2019}s air and burn days from Utah DAQ and EPA AirNow.", font: .systemFont(ofSize: 27, weight: .regular),
        color: inkSoft, at: CGPoint(x: 84, y: 404))
-  text("hivewatchutah.com", font: .systemFont(ofSize: 26, weight: .semibold), color: ink, at: CGPoint(x: 84, y: 470))
+  text("hiveairutah.com", font: .systemFont(ofSize: 26, weight: .semibold), color: ink, at: CGPoint(x: 84, y: 470))
 }

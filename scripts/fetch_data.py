@@ -35,7 +35,7 @@ from datetime import datetime, timedelta, timezone
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "site", "data", "air.json")
 
-USER_AGENT = "HiveAirUtah/1.0 (+https://hivewatchutah.com)"
+USER_AGENT = "HiveAirUtah/1.0 (+https://hiveairutah.com)"
 
 DAQ_FORECAST = "https://air.utah.gov/csvFeed.php?id=forecast"
 AIRNOW_AREAS = "https://files.airnowtech.org/airnow/today/reportingarea.dat"

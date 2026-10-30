@@ -1,6 +1,6 @@
 # HiveAir Utah
 
-**The air we all share.** A calm, plain-language air quality and pollen site for the Wasatch Front (Salt Lake, Davis, Utah and Weber counties, plus Cache, Box Elder, Tooele and Wasatch), at hivewatchutah.com. Sister site to [Prepare Utah](https://prepareutah.com/) (household readiness) and [FaultLine Utah](https://faultlineutah.com/) (earthquake hazards by address).
+**The air we all share.** A calm, plain-language air quality and pollen site for the Wasatch Front (Salt Lake, Davis, Utah and Weber counties, plus Cache, Box Elder, Tooele and Wasatch), at hiveairutah.com. Sister site to [Prepare Utah](https://prepareutah.com/) (household readiness) and [FaultLine Utah](https://faultlineutah.com/) (earthquake hazards by address).
 
 - **Home** (`index.html`): **Today along the Front**, built every 30 minutes from Utah DAQ and EPA AirNow: a **Right now along the Front** box (the highest current reading in the four core counties, today's forecast and burn levels, which counties are on watch, and what to do at today's worst level), then a card per county (AQI now, AQI by pollutant, the past 24 hours, 3-day health forecast, burn level, smoke and dust alerts). Below that, the hand-typed Hive Status line and the four guides.
 - **Air** (`air.html`): the AQI in six colors, health level versus action (burn) level, the burn rules, monitors versus sensors versus models, and which forecast covers each county.
@@ -13,7 +13,7 @@ It's a plain static site: HTML, CSS and a little JavaScript. One Python script t
 
 HiveAir Utah is for education only. It is not medical advice, not an official alert, and not affiliated with Utah DEQ, EPA, AirNow, the National Weather Service, AAAAI, or any government agency.
 
-> Called **HiveWatch Utah** until Oct 29, 2026. The site still lives at hivewatchutah.com (and the GitHub repo keeps the old name) until hiveairutah.com is bought; see the to-do list. The project folder became `Websites/HiveAir` the same day.
+> Called **HiveWatch Utah** until Oct 29, 2026, when the project folder became `Websites/HiveAir`. The site moved from hivewatchutah.com to hiveairutah.com on Oct 30, 2026. The GitHub repo and the Git database keep the old name.
 >
 > The first version of HiveWatch (Oct 22, 2026, the first commit) was a scanner and tip-routing site. That content moved to its own project, **Wasatch Wire** (`Websites/WasatchWire`).
 
@@ -132,7 +132,7 @@ git push
 
 **Git and iCloud.** This folder is in iCloud Drive, which corrupts Git's internal files if it syncs them. So Git's database lives outside iCloud at `~/.git-repos/hivewatchutah.git`, and the `.git` here is a one-line pointer to it. On another computer, clone from GitHub instead of opening this iCloud folder. iCloud conflict copies (`file 2.html`) are kept out of commits by `.gitignore` and are safe to delete.
 
-**Domain.** hivewatchutah.com is registered at GoDaddy (Oct 22, 2026). Its DNS points at GitHub Pages (set Oct 27, 2026), with the default parked `A` records removed:
+**Domain.** hiveairutah.com is registered at GoDaddy. Its DNS points at GitHub Pages (set Oct 30, 2026), with the default parked `A` records removed:
 
 | Type | Name | Value |
 |---|---|---|
@@ -142,16 +142,17 @@ git push
 | A | @ | 185.199.111.153 |
 | CNAME | www | prepareutah.github.io |
 
-The repo's Settings → Pages has Source set to **GitHub Actions**, `hivewatchutah.com` as the custom domain, and **Enforce HTTPS** on. The Let's Encrypt certificate covers hivewatchutah.com and www.hivewatchutah.com and renews automatically. The first one didn't start on its own after the DNS change; removing the custom domain and adding it back got it issued at once, as with FaultLine. Do the same if DNS ever changes and the certificate stalls.
+The repo's Settings → Pages has Source set to **GitHub Actions**, `hiveairutah.com` as the custom domain, and **Enforce HTTPS** on. The Let's Encrypt certificate covers hiveairutah.com and www.hiveairutah.com and renews automatically. If a certificate doesn't start on its own after a DNS change, removing the custom domain and adding it back gets it issued at once, as with FaultLine and this site's first domain. Do the same if DNS ever changes and the certificate stalls.
 
 ## To-do before public launch
 
 **Accounts and setup**
-- [x] Register **hivewatchutah.com** (GoDaddy, Oct 22, 2026).
+- [x] Register **hiveairutah.com** (GoDaddy).
 - [x] Create the GitHub repo, push, and turn on GitHub Pages with the custom domain (Oct 27, 2026).
 - [x] Point GoDaddy DNS at GitHub Pages (table above), then turn on Enforce HTTPS (Oct 27, 2026).
-- [ ] **Move to hiveairutah.com** (renamed from HiveWatch Utah on Oct 29, 2026; wait for the go-ahead). Buy the domain, then: add the same GoDaddy DNS records as above, change the repo's Pages custom domain to `hiveairutah.com` and wait for the certificate before turning on Enforce HTTPS; replace `hivewatchutah.com` in every page's `canonical`, `og:url` and `og:image`, in `sitemap.xml`, `robots.txt`, the printed URL beside "Today on the home page" in `air.html`, `USER_AGENT` in `scripts/fetch_data.py`, the header comment in `.github/workflows/pages.yml`, the share image (`swift scripts/make_images.swift`) and this README; then forward hivewatchutah.com to the new domain with GoDaddy's domain forwarding (301), since one Pages site serves only one custom domain. Optional: rename the repo, and the commit email in `git config user.email`.
-- [ ] Set up a contact mailbox (for example `hello@hivewatchutah.com`). Add it to About and to `USER_AGENT` in `scripts/fetch_data.py` (NWS asks API users for contact details).
+- [x] Move the site from hivewatchutah.com to **hiveairutah.com** (Oct 30, 2026). hivewatchutah.com is no longer this site's; it's free for another project.
+- [ ] Optional: rename the GitHub repo and `~/.git-repos/hivewatchutah.git`. GitHub redirects a renamed repo's old address unless a new repo takes the name.
+- [ ] Set up a contact mailbox (for example `hello@hiveairutah.com`). Add it to About and to `USER_AGENT` in `scripts/fetch_data.py` (NWS asks API users for contact details).
 - [ ] AirNow: register a free AirNow API account (its fact sheet says one is required, even for the files this site reads), sign and return the Data Exchange Guidelines form to dmc@airnowtech.org, and tell Utah DAQ the site uses its data.
 - [ ] Optional: ask AAAAI (nab@aaaai.org) and Intermountain's Southridge allergy clinic for written permission to show the Riverton pollen counts with credit.
 - [ ] Ask Prepare Utah and FaultLine Utah to link here (footers, and Prepare Utah's air guide, which doesn't cover pollen). Add Wasatch Wire to the sister links once its domain is set.

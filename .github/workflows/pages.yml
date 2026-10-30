@@ -1,4 +1,4 @@
-# Publishes the site/ folder to GitHub Pages (hivewatchutah.com) on every push
+# Publishes the site/ folder to GitHub Pages (hiveairutah.com) on every push
 # to main, and every 30 minutes with fresh air data from scripts/fetch_data.py.
 name: Deploy site
 
