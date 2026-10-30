@@ -13,7 +13,7 @@ It's a plain static site: HTML, CSS and a little JavaScript. One Python script t
 
 HiveAir Utah is for education only. It is not medical advice, not an official alert, and not affiliated with Utah DEQ, EPA, AirNow, the National Weather Service, AAAAI, or any government agency.
 
-> Called **HiveWatch Utah** until Oct 29, 2026, when the project folder became `Websites/HiveAir`. The site moved from hivewatchutah.com to hiveairutah.com on Oct 30, 2026. The GitHub repo and the Git database keep the old name.
+> Called **HiveWatch Utah** until Oct 29, 2026, when the project folder became `Websites/HiveAir`. The site moved from hivewatchutah.com to hiveairutah.com on Oct 30, 2026, and the GitHub repo (formerly `hivewatchutah`) and Git database were renamed to match.
 >
 > The first version (Oct 22, 2026, the first commit) was a scanner and tip-routing site. That content has since moved out of this project.
 
@@ -122,7 +122,7 @@ Text meets WCAG AA contrast on the dark background. Printing switches to a light
 
 ## Publishing (GitHub Pages)
 
-Set up the same way as FaultLine Utah and Prepare Utah. The code lives at https://github.com/prepareutah/hivewatchutah (public). **Every push to `main` republishes the site**, and so does the hourly data refresh. Watch deploys under the repo's **Actions** tab.
+Set up the same way as FaultLine Utah and Prepare Utah. The code lives at https://github.com/prepareutah/hiveairutah (public). **Every push to `main` republishes the site**, and so does the hourly data refresh. Watch deploys under the repo's **Actions** tab.
 
 ```bash
 git add -A
@@ -134,7 +134,7 @@ git push
 
 | Setting | Value |
 |---|---|
-| URL | `https://api.github.com/repos/prepareutah/hivewatchutah/actions/workflows/pages.yml/dispatches` |
+| URL | `https://api.github.com/repos/prepareutah/hiveairutah/actions/workflows/pages.yml/dispatches` |
 | Schedule | Every hour |
 | Method | `POST` |
 | Headers | `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, `Content-Type: application/json` |
@@ -142,7 +142,7 @@ git push
 
 A good request returns `204`. The token is a fine-grained personal access token limited to this one repo with **Actions: write**, which can start runs but can't change code. It lives only in the cron-job.org job, never in this repo. To replace it, [make a new one](https://github.com/settings/personal-access-tokens/new?name=HiveAir+refresh&description=Lets+cron-job.org+start+the+Deploy+site+workflow&target_name=prepareutah&expires_in=366&actions=write), choose **Only select repositories** and this repo, and paste it into the job's `Authorization` header. If the repo is ever renamed, update the job's URL too. AirNow publishes new readings hourly, so hourly is enough; a second job at a different minute would refresh the rest more often.
 
-**Git and iCloud.** This folder is in iCloud Drive, which corrupts Git's internal files if it syncs them. So Git's database lives outside iCloud at `~/.git-repos/hivewatchutah.git`, and the `.git` here is a one-line pointer to it. On another computer, clone from GitHub instead of opening this iCloud folder. iCloud conflict copies (`file 2.html`) are kept out of commits by `.gitignore` and are safe to delete.
+**Git and iCloud.** This folder is in iCloud Drive, which corrupts Git's internal files if it syncs them. So Git's database lives outside iCloud at `~/.git-repos/hiveairutah.git`, and the `.git` here is a one-line pointer to it. On another computer, clone from GitHub instead of opening this iCloud folder. iCloud conflict copies (`file 2.html`) are kept out of commits by `.gitignore` and are safe to delete.
 
 **Domain.** hiveairutah.com is registered at GoDaddy. Its DNS points at GitHub Pages (set Oct 30, 2026), with the default parked `A` records removed:
 
@@ -163,7 +163,7 @@ The repo's Settings → Pages has Source set to **GitHub Actions**, `hiveairutah
 - [x] Create the GitHub repo, push, and turn on GitHub Pages with the custom domain (Oct 27, 2026).
 - [x] Point GoDaddy DNS at GitHub Pages (table above), then turn on Enforce HTTPS (Oct 27, 2026).
 - [x] Move the site from hivewatchutah.com to **hiveairutah.com** (Oct 30, 2026). hivewatchutah.com is no longer this site's; it's free for another project.
-- [ ] Optional: rename the GitHub repo and `~/.git-repos/hivewatchutah.git`. GitHub redirects a renamed repo's old address unless a new repo takes the name.
+- [x] Rename the GitHub repo and Git database to `hiveairutah` (Oct 30, 2026).
 - [x] Set up the cron-job.org trigger (Oct 30, 2026). Its token expires about Oct 31, 2027; make a new one before then (see **The hourly trigger**).
 - [ ] Set up a contact mailbox (for example `hello@hiveairutah.com`). Add it to About and to `USER_AGENT` in `scripts/fetch_data.py` (NWS asks API users for contact details).
 - [ ] AirNow: register a free AirNow API account (its fact sheet says one is required, even for the files this site reads), sign and return the Data Exchange Guidelines form to dmc@airnowtech.org, and tell Utah DAQ the site uses its data.
