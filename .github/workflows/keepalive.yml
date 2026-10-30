@@ -1,6 +1,6 @@
 # GitHub turns off scheduled workflows in a public repository after 60 days
 # without a commit. Re-enabling them through the API restarts that clock, so
-# the 30-minute air data refresh in pages.yml keeps running on a quiet site.
+# the air data refresh in pages.yml keeps running on a quiet site.
 name: Keep schedules on
 
 on:
