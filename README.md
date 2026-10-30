@@ -2,7 +2,7 @@
 
 **The air we all share.** A calm, plain-language air quality and pollen site for the Wasatch Front (Salt Lake, Davis, Utah and Weber counties, plus Cache, Box Elder, Tooele and Wasatch), at hiveairutah.com. Sister site to [Prepare Utah](https://prepareutah.com/) (household readiness) and [FaultLine Utah](https://faultlineutah.com/) (earthquake hazards by address).
 
-- **Home** (`index.html`): **Today along the Front**, built every 30 minutes from Utah DAQ and EPA AirNow: a **Right now along the Front** box (the highest current reading in the four core counties, today's forecast and burn levels, which counties are on watch, and what to do at today's worst level), then a card per county (AQI now, AQI by pollutant, the past 24 hours, 3-day health forecast, burn level, smoke and dust alerts). Below that, the hand-typed Hive Status line and the four guides.
+- **Home** (`index.html`): **Today along the Front**, built every hour from Utah DAQ and EPA AirNow: a **Right now along the Front** box (the highest current reading in the four core counties, today's forecast and burn levels, which counties are on watch, and what to do at today's worst level), then a card per county (AQI now, AQI by pollutant, the past 24 hours, 3-day health forecast, burn level, smoke and dust alerts). Below that, the hand-typed Hive Status line and the four guides.
 - **Air** (`air.html`): the AQI in six colors, health level versus action (burn) level, the burn rules, monitors versus sensors versus models, and which forecast covers each county.
 - **Seasons** (`seasons.html`): winter inversions, summer ozone, wildfire smoke, Great Salt Lake dust, who breathes the worst air, what Utah is doing, and common questions written the way people search.
 - **Pollen** (`pollen.html`): the pollen calendar, local plants, how to read a count, where to find a real one, and when to get care.
@@ -34,8 +34,8 @@ scripts/
   serve.py                local preview server
   make_images.swift       draws site/assets/img/share.png
 .github/workflows/
-  pages.yml               fetches data and publishes site/ on every push and every 30 minutes
-  keepalive.yml           weekly; keeps GitHub from switching the 30-minute schedule off
+  pages.yml               fetches data and publishes site/ on every push and every hour
+  keepalive.yml           weekly; keeps GitHub from switching its backup schedule off
 ```
 
 ## Preview it on this Mac
@@ -97,7 +97,7 @@ The live cards cover the AQI and burn levels. The Hive Status line is the desk's
 | [AirNow reportingarea.dat](https://files.airnowtech.org/airnow/today/reportingarea.dat) | Current NowCast AQI per reporting area | Shown unchanged. "Salt Lake City" is the worst of eight Salt Lake and Davis monitors; Ogden is Harrisville; Provo is Lindon and Spanish Fork; no area covers Wasatch or Summit. |
 | [NWS active alerts](https://api.weather.gov/alerts/active?area=UT) | Air Quality Alert, Air Stagnation, Dense Smoke, Blowing Dust and Dust Storm alerts | Filtered to the counties above plus Summit and Morgan. |
 
-GitHub Actions runs it (`pages.yml`) and publishes the result with the site. cron-job.org starts that run every 30 minutes; see **The 30-minute trigger** under Publishing.
+GitHub Actions runs it (`pages.yml`) and publishes the result with the site. cron-job.org starts that run every hour; see **The hourly trigger** under Publishing.
 
 - If one feed is down, that part of the last published `air.json` is reused, and the page says which source is older. Forecast days and alerts that have already passed are dropped, never carried forward.
 - If DAQ is down (or leaves a county out), a card falls back to AirNow's forecast, which has health levels but no burn level, and says so on the card.
@@ -122,7 +122,7 @@ Text meets WCAG AA contrast on the dark background. Printing switches to a light
 
 ## Publishing (GitHub Pages)
 
-Set up the same way as FaultLine Utah and Prepare Utah. The code lives at https://github.com/prepareutah/hivewatchutah (public). **Every push to `main` republishes the site**, and so does the 30-minute data schedule. Watch deploys under the repo's **Actions** tab.
+Set up the same way as FaultLine Utah and Prepare Utah. The code lives at https://github.com/prepareutah/hivewatchutah (public). **Every push to `main` republishes the site**, and so does the hourly data refresh. Watch deploys under the repo's **Actions** tab.
 
 ```bash
 git add -A
@@ -130,17 +130,17 @@ git commit -m "Describe the change"
 git push
 ```
 
-**The 30-minute trigger.** GitHub's own schedule isn't reliable enough here: in late October 2026 the `20,50 * * * *` schedule in `pages.yml` ran only every 4 to 7 hours, long enough to set off the site's old-data warning. It stays as a backup, and a free [cron-job.org](https://cron-job.org/) job does the 30-minute timing by asking GitHub to start **Deploy site**:
+**The hourly trigger.** GitHub's own schedule isn't reliable enough here: in late October 2026 the `20,50 * * * *` schedule in `pages.yml` ran only every 4 to 7 hours, long enough to set off the site's old-data warning. It stays as a backup, and a free [cron-job.org](https://cron-job.org/) job does the timing by asking GitHub to start **Deploy site**:
 
 | Setting | Value |
 |---|---|
 | URL | `https://api.github.com/repos/prepareutah/hivewatchutah/actions/workflows/pages.yml/dispatches` |
-| Schedule | Every 30 minutes, at :10 and :40 |
+| Schedule | Every hour |
 | Method | `POST` |
 | Headers | `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, `Content-Type: application/json` |
 | Body | `{"ref":"main"}` |
 
-A good request returns `204`. The token is a fine-grained personal access token limited to this one repo with **Actions: write**, which can start runs but can't change code. It lives only in the cron-job.org job, never in this repo. To replace it, [make a new one](https://github.com/settings/personal-access-tokens/new?name=HiveAir+refresh&description=Lets+cron-job.org+start+the+Deploy+site+workflow&target_name=prepareutah&expires_in=366&actions=write), choose **Only select repositories** and this repo, and paste it into the job's `Authorization` header. If the repo is ever renamed, update the job's URL too.
+A good request returns `204`. The token is a fine-grained personal access token limited to this one repo with **Actions: write**, which can start runs but can't change code. It lives only in the cron-job.org job, never in this repo. To replace it, [make a new one](https://github.com/settings/personal-access-tokens/new?name=HiveAir+refresh&description=Lets+cron-job.org+start+the+Deploy+site+workflow&target_name=prepareutah&expires_in=366&actions=write), choose **Only select repositories** and this repo, and paste it into the job's `Authorization` header. If the repo is ever renamed, update the job's URL too. AirNow publishes new readings hourly, so hourly is enough; a second job at a different minute would refresh the rest more often.
 
 **Git and iCloud.** This folder is in iCloud Drive, which corrupts Git's internal files if it syncs them. So Git's database lives outside iCloud at `~/.git-repos/hivewatchutah.git`, and the `.git` here is a one-line pointer to it. On another computer, clone from GitHub instead of opening this iCloud folder. iCloud conflict copies (`file 2.html`) are kept out of commits by `.gitignore` and are safe to delete.
 
@@ -164,7 +164,7 @@ The repo's Settings → Pages has Source set to **GitHub Actions**, `hiveairutah
 - [x] Point GoDaddy DNS at GitHub Pages (table above), then turn on Enforce HTTPS (Oct 27, 2026).
 - [x] Move the site from hivewatchutah.com to **hiveairutah.com** (Oct 30, 2026). hivewatchutah.com is no longer this site's; it's free for another project.
 - [ ] Optional: rename the GitHub repo and `~/.git-repos/hivewatchutah.git`. GitHub redirects a renamed repo's old address unless a new repo takes the name.
-- [ ] Set up the cron-job.org trigger (see **The 30-minute trigger**), with failure emails on, and note here when its token expires.
+- [x] Set up the cron-job.org trigger (Oct 30, 2026). Its token expires about Oct 31, 2027; make a new one before then (see **The hourly trigger**).
 - [ ] Set up a contact mailbox (for example `hello@hiveairutah.com`). Add it to About and to `USER_AGENT` in `scripts/fetch_data.py` (NWS asks API users for contact details).
 - [ ] AirNow: register a free AirNow API account (its fact sheet says one is required, even for the files this site reads), sign and return the Data Exchange Guidelines form to dmc@airnowtech.org, and tell Utah DAQ the site uses its data.
 - [ ] Optional: ask AAAAI (nab@aaaai.org) and Intermountain's Southridge allergy clinic for written permission to show the Riverton pollen counts with credit.

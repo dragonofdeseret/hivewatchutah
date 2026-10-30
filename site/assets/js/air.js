@@ -1,6 +1,6 @@
 /* Today panel on the home page. Reads data/air.json, which
    scripts/fetch_data.py builds from Utah DAQ, EPA AirNow and NWS feeds
-   every 30 minutes. This file makes no other network request. */
+   every hour. This file makes no other network request. */
 (function () {
   "use strict";
 

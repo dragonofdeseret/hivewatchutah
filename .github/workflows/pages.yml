@@ -1,7 +1,7 @@
 # Publishes the site/ folder to GitHub Pages (hiveairutah.com) on every push
 # to main, and with fresh air data from scripts/fetch_data.py on every other
-# run. A cron-job.org job starts one every 30 minutes through workflow_dispatch
-# (see "The 30-minute trigger" in README.md).
+# run. A cron-job.org job starts one every hour through workflow_dispatch
+# (see "The hourly trigger" in README.md).
 name: Deploy site
 
 on:

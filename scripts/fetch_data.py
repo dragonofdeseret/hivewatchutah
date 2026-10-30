@@ -14,7 +14,7 @@ Standard library only. Run from the project root:
     python3 scripts/fetch_data.py
     python3 scripts/fetch_data.py --previous old-air.json --strict
 
-GitHub Actions runs it every 30 minutes before publishing the site
+GitHub Actions runs it every hour before publishing the site
 (.github/workflows/pages.yml). When a feed is down, the matching section
 of the previous air.json is kept and marked stale, minus any forecast
 days or alerts that have passed. With --strict the script exits 1 if
