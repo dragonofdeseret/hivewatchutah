@@ -14,7 +14,7 @@ Standard library only. Run from the project root:
     python3 scripts/fetch_data.py
     python3 scripts/fetch_data.py --previous old-air.json --strict
 
-GitHub Actions runs it every hour before publishing the site
+GitHub Actions runs it every 30 minutes before publishing the site
 (.github/workflows/pages.yml). When a feed is down, the matching section
 of the previous air.json is kept and marked stale, minus any forecast
 days or alerts that have passed. With --strict the script exits 1 if
@@ -234,7 +234,7 @@ def read_airnow():
     if not now:
         raise ValueError("no current readings for the Wasatch Front areas")
     for entry in now.values():
-        if "aqi" not in entry:  # no primary flag: take the highest AQI
+        if entry.get("aqi") is None:  # no primary flag, or its AQI is blank: take the highest AQI
             top = max(entry["params"], key=lambda p: p["aqi"] if p["aqi"] is not None else -1)
             entry.update({"aqi": top["aqi"], "cat": top["cat"], "category": top["category"], "pollutant": top["pollutant"]})
     return now, forecast

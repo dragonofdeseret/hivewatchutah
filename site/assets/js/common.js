@@ -23,6 +23,9 @@
   });
 
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") setOpen(false);
+    if (event.key === "Escape" && nav.classList.contains("open")) {
+      setOpen(false);
+      btn.focus();
+    }
   });
 })();

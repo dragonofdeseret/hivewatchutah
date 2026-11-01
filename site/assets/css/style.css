@@ -53,15 +53,8 @@
   --pollen-2: #AE832E;
   --pollen-3: #F0C566;
 
-  /* hero night sky and ridges */
-  --sky-top: #172A3F;
-  --ridge-far: #22384E;
-  --ridge-near: #18293A;
-  --ridge-base: #40241A;
-
   --radius: 14px;
   --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 8px 22px rgba(0, 0, 0, .28);
-  --shadow-lift: 0 12px 28px rgba(0, 0, 0, .45);
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "Cascadia Code", "Segoe UI Mono", Menlo, Consolas, monospace;
@@ -247,7 +240,7 @@ li { margin: .35em 0; }
   .site-nav a[aria-current="page"] { background: var(--card-2); color: var(--gold-bright); }
 }
 
-/* --- buttons & hero --- */
+/* --- buttons --- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -269,11 +262,6 @@ li { margin: .35em 0; }
 .btn.small { min-height: 44px; padding: 8px 14px; font-size: .95rem; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
 
-.hero {
-  position: relative;
-  background: linear-gradient(180deg, var(--sky-top) 0%, var(--bg) 82%);
-}
-.hero .wrap { position: relative; z-index: 1; padding-top: 36px; padding-bottom: 12px; }
 .lede {
   font-family: var(--serif);
   font-size: clamp(1.25rem, 2.6vw, 1.55rem);
@@ -282,7 +270,7 @@ li { margin: .35em 0; }
   max-width: 22em;
   margin-bottom: .6em;
 }
-.eyebrow, .hero .eyebrow {
+.eyebrow {
   display: inline-block;
   font-family: var(--sans);
   font-size: .78rem;
@@ -292,30 +280,6 @@ li { margin: .35em 0; }
   color: var(--rock);
   margin: 0 0 10px;
 }
-.trust {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
-  color: var(--muted);
-  font-size: .95rem;
-}
-.trust li { margin: 0; }
-.hero-art { height: 112px; }
-.hero-art svg { width: 100%; height: 100%; display: block; }
-.hero-art .ridge-far { fill: var(--ridge-far); }
-.hero-art .ridge-near { fill: var(--ridge-near); }
-.hero-art .ridge-base { fill: var(--ridge-base); }
-.hero-art .hive-moon { fill: var(--gold); }
-.hero-art .glow-in { stop-color: var(--gold); stop-opacity: .3; }
-.hero-art .glow-out { stop-color: var(--gold); stop-opacity: 0; }
-@media (min-width: 880px) {
-  .hero .wrap { padding-top: 64px; }
-  .hero-art { height: 156px; }
-}
-
 .page-hero {
   padding: 32px 0 8px;
   background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
@@ -330,9 +294,6 @@ section.block.alt { background: var(--bg-2); border-top: 1px solid var(--line); 
 @media (min-width: 720px) {
   .grid.two { grid-template-columns: 1fr 1fr; }
 }
-@media (min-width: 900px) {
-  .grid.paths { grid-template-columns: 1fr 1fr 1fr; }
-}
 
 .card {
   background: var(--card);
@@ -343,18 +304,6 @@ section.block.alt { background: var(--bg-2); border-top: 1px solid var(--line); 
 }
 .card h3 { margin-bottom: .35em; }
 .card > h2 { font-size: 1.35rem; }
-a.card { display: block; text-decoration: none; color: var(--ink); transition: transform .15s ease, border-color .15s ease; }
-a.card:hover { color: var(--ink); transform: translateY(-2px); border-color: var(--line-strong); box-shadow: var(--shadow-lift); }
-a.card h3 { color: var(--head); }
-.path-num {
-  display: block;
-  font-family: var(--serif);
-  font-weight: 700;
-  color: var(--gold-bright);
-  margin-bottom: 6px;
-}
-.path-go { display: inline-block; margin-top: 4px; font-weight: 700; color: var(--link); }
-a.card:hover .path-go { color: var(--gold-bright); }
 
 .steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
 .steps li { counter-increment: s; position: relative; padding-left: 52px; margin: 0 0 18px; }
@@ -669,7 +618,6 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
 .cal-key li[data-lvl="3"]::before { background: var(--pollen-3); }
 
 /* --- Today panel (home page) --- */
-.today-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
 .today-meta { margin: 0 0 16px; font-size: .9rem; color: var(--muted); }
 .today-alerts { list-style: none; padding: 0; margin: 0 0 16px; }
 .today-alerts li {
@@ -748,10 +696,8 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
   border-radius: 0 var(--radius) var(--radius) 0;
   box-shadow: var(--shadow);
 }
-.front-now .front-label { margin: 0 0 8px; font-family: var(--sans); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .front-now .now { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin: 0 0 4px; }
 .front-now .aqi-num { font-size: 2.8rem; }
-.front-now > p { margin: 0 0 6px; max-width: 46rem; }
 .front-now .now-meta { margin-bottom: 10px; }
 .front-now .watch { margin: 8px 0 0; }
 .tip { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--bg-2); font-size: .9rem; max-width: 46rem; }
@@ -779,7 +725,6 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
   15% { opacity: .85; }
   100% { transform: scale(3); opacity: 0; }
 }
-.nearby { margin-top: 16px; }
 
 /* --- footer --- */
 .site-footer {
@@ -810,10 +755,426 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
 
 [id] { scroll-margin-top: 84px; }
 
+/* --- Front page (home): a broadsheet in the night palette. Everything here
+   is scoped to body.paper so the inside pages don't change. Rules, not cards. --- */
+.paper {
+  --paper-max: 1480px;
+  --gutter: 16px;
+  --col-gap: 16px;
+  --rail-gap: 28px;
+  --rail: 294px;
+  /* The stylebook: four text sizes. Only tracked kickers go under 12px. */
+  --t-lead: .9rem;
+  --t-text: .85rem;
+  --t-small: .78rem;
+  --t-kicker: .72rem;
+  /* Display sizes. */
+  --d-flag: min(clamp(1.7rem, 8.7vw, 2.1rem), 11vw);
+  --d-head: clamp(1.75rem, 7.6vw, 2.1rem);
+  --d-head-long: clamp(1.25rem, 6.2vw, 1.7rem);
+  --d-head-longest: clamp(1.15rem, 5.2vw, 1.7rem);
+  --d-deck: 1rem;
+  --d-figure: 3.1rem;
+  --d-num: 1.7rem;
+  --d-core-num: 2.2rem;
+  --d-name: 1.1rem;
+  --d-near-num: 1.25rem;
+  --d-index: 1rem;
+}
+.paper [id] { scroll-margin-top: 8px; }
+
+/* The masthead. On phones: name and Menu on one row, the tagline under them. */
+.paper .site-header { position: relative; background: var(--bg); border-bottom: 0; }
+.paper .site-header .wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0 12px;
+  max-width: var(--paper-max);
+  min-height: 0;
+  padding: 2px var(--gutter) 0;
+}
+.paper .nameplate, .paper .flagname { display: contents; }
+.paper .nameplate h1 { grid-column: 1; grid-row: 1; margin: 0; font-size: var(--d-flag); line-height: 1.1; letter-spacing: -.015em; }
+.paper .tagline { grid-column: 1 / -1; grid-row: 2; margin: 0 0 4px; font: italic var(--t-text)/1.25 var(--serif); color: var(--ink-soft); }
+.paper .nameplate > .ear { display: none; }
+.paper .nav-toggle { grid-column: 2; grid-row: 1; padding: 8px 10px; border-radius: 2px; background: none; }
+.paper .site-nav { grid-column: 1 / -1; grid-row: 3; }
+.paper .site-nav li { margin: 0; }
+
+.paper .ear h2 { margin: 0 0 2px; font: 700 var(--t-kicker)/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--rock); }
+.paper .ear p { margin: 0; }
+
+.paper main { max-width: var(--paper-max); margin: 0 auto; padding: 0 var(--gutter) 8px; }
+
+/* The dateline. Its hairline takes the day's color when the air was rated. */
+.paper .dateline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 14px;
+  padding: 2px 0 3px;
+  border-top: 3px double var(--head);
+  border-bottom: 1px solid var(--cat, var(--head));
+  font-size: var(--t-small);
+  line-height: 1.35;
+  color: var(--ink-soft);
+}
+.paper .dateline p { margin: 0; }
+.paper #paper-date { font-weight: 700; letter-spacing: .04em; color: var(--head); }
+.paper #paper-date:empty { display: none; }
+.paper .dateline .dateline-words { font-family: var(--serif); font-style: italic; font-size: var(--t-text); }
+.paper .dateline .today-meta { font-size: var(--t-small); color: var(--ink-soft); }
+.paper .meta-from { display: none; }
+.paper.is-down .meta-from { display: inline; }
+html:not(.js) .paper .dateline .dateline-words { margin: 0 auto; }
+
+/* The lead */
+.paper .sheet { position: relative; padding-top: 7px; }
+.paper #today { min-width: 0; }
+.paper .kicker { margin: 0 0 2px; font: 700 var(--t-kicker)/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--rock); }
+.paper #today-title { margin: 0; font-size: var(--d-head); line-height: 1.08; letter-spacing: -.01em; }
+.paper #today-title.is-long { font-size: var(--d-head-long); }
+.paper #today-title.is-longest { font-size: var(--d-head-longest); }
+.paper .deck { margin: 4px 0 0; font: var(--d-deck)/1.32 var(--serif); color: var(--ink); text-wrap: pretty; }
+.paper .deck:empty { display: none; }
+.paper #today-body { margin-top: 8px; }
+.paper #today-body > .muted { margin: 0; font-size: var(--t-lead); }
+.paper .stale { margin: 0 0 8px; padding: 6px 10px; border-radius: 0; border-left: 3px solid var(--gold); font-size: var(--t-text); line-height: 1.38; }
+
+.paper .front-now {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--col-gap);
+  margin: 0;
+  padding: 7px 0 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  box-shadow: none;
+}
+.paper .front-now p { margin: 0; max-width: none; }
+/* The big number beside its word and where it came from. */
+.paper .lead-figure { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; align-items: start; align-content: start; }
+.paper .front-now .now { display: contents; }
+.paper .front-now .aqi-num { grid-row: 1 / span 2; font-size: var(--d-figure); letter-spacing: -.02em; }
+.paper .front-now .aqi-chip { justify-self: start; min-height: 24px; padding: 3px 8px; font-size: var(--t-text); line-height: 18px; }
+.paper .front-now .now-meta { margin-top: 3px; font-size: var(--t-small); line-height: 1.32; color: var(--muted); text-wrap: pretty; }
+.paper .lead-figure .now-meta:only-child,
+.paper .lead-figure .now-meta:first-child { grid-column: 1 / -1; margin-top: 0; font-size: var(--t-text); color: var(--ink-soft); }
+.paper .front-now .watch { grid-column: 1 / -1; margin: 5px 0 0; font-size: var(--t-lead); line-height: 1.3; }
+.paper .lead-facts { margin-top: 7px; font-size: var(--t-lead); line-height: 1.32; }
+.paper .lead-facts p + p { margin-top: 3px; }
+.paper .lead-facts strong, .paper .tip strong { color: var(--head); }
+.paper .tip { margin: 7px 0 0; padding: 0; background: none; border-radius: 0; max-width: none; font-size: var(--t-lead); line-height: 1.32; color: var(--ink-soft); }
+.paper .tip p + p { margin-top: 2px; }
+
+.paper .aqi-chip { padding: 1px 6px; border-radius: 2px; font-size: var(--t-small); line-height: 1.25; white-space: normal; overflow-wrap: anywhere; text-wrap: balance; }
+
+/* Alerts run as a ruled band between the lead and the county columns. */
+.paper .today-alerts { margin: 7px 0 0; padding: 0; border-top: 1px solid var(--line-strong); }
+.paper .today-alerts li { position: relative; margin: 0; padding: 4px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; font-size: var(--t-text); line-height: 1.34; }
+.paper .today-alerts li:last-child { border-bottom: 0; }
+
+/* County columns. Each opens with a short tick in its AQI color on a neutral
+   hairline. The top of a county is the day; the rest is fine print in a
+   <details>. Compact form first: name at the left, the AQI at the right. */
+.paper .counties { display: grid; gap: 0; grid-template-columns: minmax(0, 1fr); }
+.paper .counties.core { margin-top: 8px; }
+.paper .county {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  min-width: 0;
+  padding: 6px 0;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  box-shadow: none;
+}
+.paper .county::after { content: ""; position: absolute; left: 0; top: -2px; width: 34px; height: 3px; background: var(--cat, transparent); }
+.paper .county-head { display: flex; flex-wrap: wrap; column-gap: 8px; align-items: center; }
+.paper .county h3 { flex: 1 1 auto; min-width: 0; margin: 0; font-size: var(--d-name); line-height: 1.15; }
+.paper .county .now { display: flex; flex: 0 1 auto; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 0 6px; min-width: 0; margin: 0 0 0 auto; }
+.paper .county .aqi-num { flex: none; font-size: var(--d-num); letter-spacing: -.01em; }
+.paper .county .now .aqi-chip { flex: 0 1 auto; min-width: 0; max-width: 7.6rem; }
+.paper .county .now-meta { margin: 0; font-size: var(--t-small); line-height: 1.32; color: var(--muted); text-wrap: balance; }
+.paper .county-head .now-meta { flex: 1 1 100%; margin-top: 1px; }
+.paper .fold-meta { display: none; }
+/* An old reading: no fill, so it can't pass for a live one, and full contrast. */
+.paper .county.is-old .aqi-num { opacity: 1; color: var(--muted); }
+.paper .county.is-old .now .aqi-chip { opacity: 1; background: transparent; color: var(--ink-soft); box-shadow: inset 0 0 0 1px var(--cat, var(--line-strong)); }
+.paper .county .watch { gap: 5px; margin: 3px 0 0; font-size: var(--t-text); line-height: 1.28; }
+.paper .county .watch .shimmer { width: 1.4em; height: 1.4em; margin: -.05em 0 0 1px; }
+.paper .today-box { margin-top: 3px; }
+.paper .source-line { margin: 0 0 2px; font-size: var(--t-small); line-height: 1.3; }
+.paper .days { margin: 0; }
+.paper .days div { grid-template-columns: minmax(4.2em, max-content) minmax(0, 1fr); gap: 5px; padding: 1px 0; border: 0; font-size: var(--t-lead); line-height: 1.3; }
+.paper .days dt { white-space: nowrap; }
+.paper .dot { margin-right: 4px; }
+.paper .burn { margin: 2px 0 0; padding: 0; background: none; border-radius: 0; font-size: var(--t-lead); line-height: 1.3; }
+.paper .burn strong { color: var(--head); }
+.paper .county-more > summary { padding: 12px 0; font-size: var(--t-small); line-height: 20px; color: var(--ink-soft); cursor: pointer; }
+.paper .county-more > summary:hover { color: var(--gold-bright); }
+.paper .county-more .burn { margin: 0 0 3px; }
+.paper .county-more .days { margin: 3px 0 0; padding-top: 2px; border-top: 1px solid var(--line); }
+.paper .params { gap: 0 8px; margin: 0 0 2px; font-size: var(--t-small); line-height: 1.32; }
+.paper .params .dot { margin-right: 3px; }
+.paper .hist { margin: 0; }
+.paper .hist svg { height: 24px; }
+.paper .hist-cap { margin: 1px 0 0; font-size: var(--t-small); line-height: 1.28; }
+.paper .county .note-line { margin: 3px 0 0; font-size: var(--t-small); line-height: 1.28; }
+
+.paper .nearby { margin-top: 6px; }
+.paper .nearby > h2,
+.paper .rail h2,
+.paper .howto h2 { margin: 0 0 3px; font: 700 var(--t-kicker)/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--head); }
+.paper .nearby > h2 { padding-top: 6px; border-top: 2px solid var(--line-strong); }
+.paper .counties.near .aqi-num { font-size: var(--d-near-num); }
+.paper .counties.near .county h3 { font-size: var(--d-index); }
+
+/* The rail: Hive status, the desk's note, the guides, and Pollen on phones. */
+.paper .rail { margin-top: 10px; }
+.paper .rail > section { padding: 6px 0 9px; border-top: 2px solid var(--line-strong); }
+.paper .status-line { padding: 0 0 0 9px; border-radius: 0; background: none; font-size: var(--t-text); line-height: 1.36; }
+.paper .status-line[data-level] { background: none; border-left-width: 3px; }
+.paper .status-meta { margin: 3px 0 0; font-size: var(--t-small); line-height: 1.3; color: var(--muted); }
+.paper .desk { margin: 0; padding: 0; border: 0; }
+.paper .desk p { font-size: var(--t-lead); line-height: 1.32; }
+.paper .inside ul { margin: 0; padding: 0; list-style: none; }
+.paper .inside li { margin: 0; border-top: 1px solid var(--line); }
+.paper .inside li:first-child { border-top: 0; }
+.paper .inside a { display: block; padding: 3px 0 4px; font-size: var(--t-small); line-height: 1.3; text-decoration: none; color: var(--ink-soft); }
+.paper .inside b { display: block; font: 700 var(--d-index)/1.2 var(--serif); color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+.paper .inside a:hover, .paper .inside a:hover b { color: var(--gold-bright); }
+.paper .pollen-rail { font-size: var(--t-text); line-height: 1.36; color: var(--ink-soft); }
+.paper .pollen-rail h2 { color: var(--head); }
+
+/* How to read this page: small type, heading run in, set in columns. */
+.paper .howto { padding: 6px 0 0; border-top: 2px solid var(--line-strong); font-size: var(--t-small); line-height: 1.34; color: var(--muted); }
+.paper .howto h2, .paper .howto p { display: inline; margin: 0; }
+.paper .howto h2 { margin-right: .5em; }
+
+/* The phone masthead, for narrow windows and for short ones (a phone on its
+   side, a laptop at 200%). No JavaScript means no menu button, so the links sit
+   on two short lines. The open menu pushes the page down, so it can't cover a
+   link that keyboard focus lands on. */
+@media (max-width: 759px), (max-height: 560px) {
+  html:not(.js) .paper .site-nav ul { display: flex; flex-wrap: wrap; padding: 0 0 2px; }
+  html:not(.js) .paper .site-nav a { padding: 8px 12px 8px 0; border-bottom: 0; font-size: var(--t-lead); }
+  .js .paper .site-nav.open { position: static; max-height: none; overflow: visible; box-shadow: none; }
+}
+@media screen and (max-height: 480px) {
+  .paper .tagline { display: none; }
+}
+/* The shared stylesheet turns the link bar on at 880; a short window keeps Menu. */
+@media (min-width: 880px) and (max-height: 560px) {
+  .js .paper .nav-toggle { display: inline-flex; }
+  .js .paper .site-nav { display: none; }
+  .js .paper .site-nav.open { display: block; background: var(--header); border-bottom: 1px solid var(--line); }
+  .js .paper .site-nav.open ul { display: block; padding: 8px 18px 14px; }
+  .js .paper .site-nav a { padding: 12px 6px; border-bottom: 1px solid var(--line); border-radius: 0; font-size: 1rem; }
+}
+@media (max-width: 599px) {
+  .paper .dateline .today-meta { flex-basis: 100%; }
+}
+/* The words only where they fit beside even the longest date. */
+@media (max-width: 421px) {
+  .js .paper .dateline-words { display: none; }
+}
+@media (max-width: 370px) {
+  .paper .kicker { letter-spacing: .05em; text-wrap: balance; }
+}
+
+/* Tablet and up: the lead set in columns on the county grid. Two across, then four. */
+@media (min-width: 700px) {
+  .paper {
+    --gutter: 20px;
+    --d-head: clamp(2.1rem, 4.1vw, 3.6rem);
+    --d-head-long: clamp(1.8rem, 3.3vw, 2.85rem);
+    --d-head-longest: clamp(1.5rem, 2.8vw, 2.4rem);
+    --d-deck: 1.1rem;
+  }
+  .paper #today-title { line-height: 1.04; }
+  .paper .deck { line-height: 1.3; }
+  .paper .front-now { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .paper .lead-facts { position: relative; margin-top: 0; }
+  .paper .lead-facts::before { content: ""; position: absolute; left: -8px; top: 0; bottom: 0; border-left: 1px solid var(--line); }
+  .paper .tip { grid-column: 1 / -1; margin-top: 7px; padding-top: 6px; border-top: 1px solid var(--line); }
+
+  .paper .today-alerts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--col-gap); }
+  .paper .today-alerts li { border-bottom: 0; }
+  .paper .today-alerts li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .paper .today-alerts li:nth-child(even)::before { content: ""; position: absolute; left: -8px; top: 0; bottom: 0; border-left: 1px solid var(--line); }
+
+  /* The number at the left; the name, then its word, beside it. A two-line word
+     sits under the name, so every name stays on one baseline across the row. */
+  .paper .counties.core,
+  .paper .counties.near { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--col-gap); }
+  .paper .counties .county:nth-child(even)::before { content: ""; position: absolute; left: -8px; top: -1px; bottom: 0; border-left: 1px solid var(--line); }
+  .paper .counties.core .county { padding-bottom: 6px; }
+  .paper .counties.core .county-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; row-gap: 1px; }
+  .paper .counties.core .now { display: contents; }
+  .paper .counties.core .aqi-num { grid-column: 1; grid-row: 1 / span 2; font-size: var(--d-core-num); letter-spacing: -.02em; }
+  .paper .counties.core .now .aqi-chip { grid-column: 2; grid-row: 2; justify-self: start; }
+  .paper .counties.core .county h3 { grid-column: 2; grid-row: 1; }
+  .paper .counties.core .county-head.no-now h3 { grid-column: 1 / -1; }
+  .paper .counties.core .now-meta { grid-column: 1 / -1; }
+  .paper .counties.core .county-more > summary { display: none; }
+  .paper .counties.core .county-more { margin-top: 3px; padding-top: 3px; border-top: 1px solid var(--line); }
+  .paper .days div,
+  .paper .burn { font-size: var(--t-text); }
+
+  .paper .counties.near .county { padding: 5px 0 2px; }
+  .paper .counties.near .county-head { align-content: start; align-items: start; }
+  .paper .counties.near .county-head.no-now { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 10px; }
+  .paper .counties.near .county-head.no-now h3 { grid-column: 1; }
+  .paper .counties.near .county-head.no-now .now-meta { grid-column: 2; margin: 0; text-align: right; }
+
+  /* Without county columns (no JavaScript, or the data failed), and up to the
+     wide layout, the rail is a band on the same grid. */
+  .paper .rail { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--col-gap); }
+  .paper .from-desk { position: relative; }
+  .paper .from-desk::before { content: ""; position: absolute; left: -8px; top: 6px; bottom: 9px; border-left: 1px solid var(--line); }
+  .paper .inside { grid-column: 1 / -1; }
+  .paper .pollen-rail { grid-column: 1 / -1; }
+  .paper .inside ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--col-gap); }
+  .paper .inside li:nth-child(2) { border-top: 0; }
+  .paper .howto { columns: 2; column-gap: var(--col-gap); column-rule: 1px solid var(--line); }
+}
+
+/* The full masthead: the flag with plain ears, then the section bar. The right
+   ear comes before the nav in the page, so the tab order follows the eye. */
+@media (min-width: 760px) {
+  .paper .dateline { padding: 3px 0; }
+  .paper .dateline .dateline-words { margin: 0 auto; }
+}
+@media (min-width: 760px) and (min-height: 561px) {
+  .paper { --d-flag: clamp(2.8rem, 4vw, 3.6rem); }
+  .paper .meta-from { display: inline; }
+  .paper .site-header .wrap { display: block; padding-top: 4px; }
+  .paper .nameplate { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 24px; padding-bottom: 4px; }
+  .paper .flagname { display: block; grid-column: 2; grid-row: 1; text-align: center; }
+  .paper .nameplate h1 { line-height: 1; }
+  .paper .tagline { margin: 3px 0 0; font-size: var(--d-index); }
+  .paper .nameplate > .ear { display: block; grid-row: 1; }
+  .paper .ear-motto { grid-column: 1; justify-self: start; font: italic var(--t-lead)/1.3 var(--serif); color: var(--ink-soft); }
+  .paper .ear-motto span { display: block; }
+  .paper .nameplate > .ear-pollen { grid-column: 3; justify-self: end; max-width: 260px; font-size: var(--t-small); line-height: 1.32; color: var(--ink-soft); }
+  .paper .pollen-rail { display: none; }
+
+  .paper .nav-toggle, .js .paper .nav-toggle { display: none; }
+  .paper .site-nav, .js .paper .site-nav, .js .paper .site-nav.open { display: block; position: static; max-height: none; overflow: visible; background: none; border: 0; border-top: 1px solid var(--line); box-shadow: none; }
+  .paper .site-nav ul, .js .paper .site-nav.open ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; padding: 0; }
+  .paper .site-nav a {
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 0;
+    font: 700 var(--t-kicker)/1 var(--sans);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .paper .site-nav a:hover { background: none; color: var(--gold-bright); }
+  .paper .site-nav a[aria-current="page"] { background: none; color: var(--gold-bright); text-decoration: underline; text-underline-offset: 5px; }
+}
+
+/* Four across once they fit: the lead's rules land on the county rules. */
+@media (min-width: 960px) {
+  .paper .front-now { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .paper .lead-figure { grid-column: 1; }
+  .paper .lead-facts { grid-column: 2; }
+  .paper .front-now.no-tip .lead-facts { grid-column: 2 / -1; }
+  .paper .tip { position: relative; grid-column: 3 / -1; margin-top: 0; padding-top: 0; border-top: 0; }
+  .paper .tip::before { content: ""; position: absolute; left: -8px; top: 0; bottom: 0; border-left: 1px solid var(--line); }
+
+  .paper .counties.core,
+  .paper .counties.near { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .paper .counties .county:nth-child(n)::before { content: ""; position: absolute; left: -8px; top: -1px; bottom: 0; border-left: 1px solid var(--line); }
+  .paper .counties .county:first-child::before { display: none; }
+  .paper .days div,
+  .paper .burn { font-size: var(--t-small); }
+  .paper .county .watch { font-size: var(--t-small); }
+  .paper .county-more > summary { padding: 2px 0; }
+  .paper .hist svg { height: 20px; }
+  .paper .more-what { display: none; }
+  /* In the narrow nearby columns a fresh reading's source line waits a click. */
+  .paper .county-head .has-fold { display: none; }
+  .paper .county-more .fold-meta { display: block; margin-bottom: 2px; }
+  .paper .counties.near .county-word { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .paper .rail { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .paper #hive-status { grid-column: span 2; }
+  .paper .from-desk { grid-column: span 2; }
+  .paper .inside ul { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .paper .inside li { position: relative; border-top: 0; }
+  .paper .inside li + li::before { content: ""; position: absolute; left: -8px; top: 3px; bottom: 4px; border-left: 1px solid var(--line); }
+  .paper .howto { columns: 4; }
+}
+
+/* Rows line up across the columns where subgrid is available. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 700px) {
+    .paper .counties.core .county { grid-row: span 8; grid-template-rows: subgrid; }
+    .paper .counties.core .county-head { grid-row: 1 / span 3; grid-template-rows: subgrid; }
+    .paper .counties.core .county-head .now-meta { grid-row: 3; }
+    .paper .counties.core .no-now .now-meta { grid-row: 2 / span 2; }
+    .paper .counties.core .watch { grid-row: 4; }
+    .paper .counties.core .today-box { grid-row: 5 / span 2; }
+    .paper .counties.core .burn { grid-row: 7; }
+    .paper .counties.core .county-more { grid-row: 8; }
+    .paper .today-box { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; }
+    .paper .today-box .source-line { grid-row: 1; }
+    .paper .today-box .days { grid-row: 2; }
+    .paper .counties.near .county { grid-row: span 6; grid-template-rows: subgrid; }
+    .paper .counties.near .county-head { grid-row: 1; }
+    .paper .counties.near .watch { grid-row: 2; }
+    .paper .counties.near .today-box { grid-row: 3 / span 2; }
+    .paper .counties.near .burn { grid-row: 5; }
+    .paper .counties.near .county-more { grid-row: 6; }
+    .paper .counties.near .today-box + .county-more { grid-row: 5 / span 2; }
+    .paper .counties.near .county-more .burn { grid-row: auto; }
+  }
+}
+
+/* Wide: the rail runs down the right. How to read sits under the columns, on
+   their rules; on a long day (air.js measures) it moves under the rail instead. */
+@media (min-width: 1240px) {
+  .paper { --rail: clamp(250px, calc(250px + (100vw - 1280px) * .275), 294px); }
+  .js .paper:not(.is-down) .sheet {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--rail);
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "today rail" "howto rail";
+    column-gap: var(--rail-gap);
+  }
+  .js .paper.long-day:not(.is-down) .sheet { grid-template-areas: "today rail" "today howto"; }
+  .js .paper:not(.is-down) .sheet::after { content: ""; position: absolute; top: 8px; bottom: 0; right: calc(var(--rail) + var(--rail-gap) / 2); border-left: 1px solid var(--line); }
+  .js .paper:not(.is-down) #today { grid-area: today; }
+  .js .paper:not(.is-down) .howto { grid-area: howto; margin-top: 6px; align-self: start; }
+  .js .paper.long-day:not(.is-down) .howto { columns: 1; margin-top: 0; font-size: var(--t-text); }
+  .js .paper:not(.is-down) .rail { grid-area: rail; display: block; align-self: start; margin-top: 0; }
+  .js .paper:not(.is-down) .rail > section { padding: 6px 0 7px; }
+  .js .paper:not(.is-down) .rail > section:first-child { padding-top: 0; border-top: 0; }
+  .js .paper:not(.is-down) .from-desk::before { display: none; }
+  .js .paper:not(.is-down) .inside ul { display: block; }
+  .js .paper:not(.is-down) .inside li { border-top: 1px solid var(--line); }
+  .js .paper:not(.is-down) .inside li:first-child { border-top: 0; }
+  .js .paper:not(.is-down) .inside li::before { display: none; }
+  /* While the readings load, ruled lines hold the columns' place beside the rail. */
+  .js .paper:not(.is-down) #today-body > .muted { min-height: 420px; background: repeating-linear-gradient(to bottom, transparent 0 57px, var(--line) 57px 58px); }
+}
+@media (min-width: 1400px) {
+  .paper { --gutter: 32px; }
+}
+.paper .site-footer .wrap { max-width: var(--paper-max); padding-inline: var(--gutter); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  a.card { transition: none; }
-  a.card:hover { transform: none; }
   .shimmer .ring { animation: none; }
 }
 
@@ -824,6 +1185,19 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
   .shimmer .halo, .shimmer .ring { stroke: CanvasText; }
   .hist .bar { stroke: CanvasText; stroke-width: 1; vector-effect: non-scaling-stroke; }
   .hist .ref, .hist .base { stroke: CanvasText; opacity: 1; }
+  .paper .county { border-top: 1px solid CanvasText; }
+  .paper .county::after { background: CanvasText; }
+  .paper .status-line { border-left: 3px solid CanvasText; }
+  .paper .aqi-chip { border: 1px solid CanvasText; }
+  .paper .county.is-old .now .aqi-chip { box-shadow: none; }
+  /* Forecast dots keep their level's color, with an edge so none can vanish. */
+  .paper .dot { forced-color-adjust: none; border: 1px solid CanvasText; }
+  .paper .dateline { border-top-color: CanvasText; border-bottom-color: CanvasText; }
+  .paper .stale { border-left: 3px solid CanvasText; }
+  .paper #today-body > .muted { background: none; }
+  /* Room between each rule and the type below it, so text backplates can't clip the rule. */
+  .paper .front-now { padding-top: 9px; }
+  .paper .county { padding-top: 8px; }
 }
 
 /* Paper is light. Swap the palette back so printed pages stay legible. */
@@ -836,11 +1210,11 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
     --gold: #999; --sage: #666;
   }
   html { color-scheme: light; }
-  .nav-toggle, .site-nav, .hero-art, .route-reset, .no-print { display: none !important; }
+  .nav-toggle, .site-nav, .route-reset, .no-print { display: none !important; }
   .site-header { position: static; }
   .strip { background: #fff; color: #000; border-bottom: 1px solid #999; }
   .strip strong, .strip a { color: #000; }
-  .hero, .page-hero { background: none; }
+  .page-hero { background: none; }
   .site-footer { color: #000; border-top: 1px solid #999; }
   .site-footer a, .site-footer .fine { color: #000; }
   .card, .door, .rules li, .table-wrap { box-shadow: none; break-inside: avoid; }
@@ -857,4 +1231,86 @@ table.cal td[data-lvl="3"] { background: var(--pollen-3); }
   .aqi-chip, .dot, .hist .bar, table.cal td, .cal-key li::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .front-now, .tip { box-shadow: none; background: #fff; break-inside: avoid; }
   a { color: #000; }
+  /* The front page on paper: nameplate, lead, counties two across, then the rail
+     as a band. Black on white, whatever the page width. */
+  .paper { font-size: 11pt; }
+  .paper main { display: block; max-width: none; padding: 0; }
+  .paper .site-header .wrap, .paper .site-footer .wrap { display: block; max-width: none; padding: 0; }
+  .paper .nameplate { display: block; padding: 0 0 4pt; text-align: center; }
+  .paper .flagname { display: block; }
+  .paper .nameplate h1 { font-size: 34pt; line-height: 1; }
+  .paper .tagline { margin: 2pt 0 0; font-size: 11pt; color: var(--ink); }
+  .paper .nameplate > .ear { display: block; justify-self: auto; margin: 3pt 0 0; font-size: 9.5pt; line-height: 1.3; color: var(--ink); }
+  .paper .ear-motto span { display: inline; }
+  .paper .ear h2, .paper .kicker { color: var(--ink); }
+  .paper .nameplate > .ear-pollen { max-width: none; font-size: 9.5pt; }
+  .paper .nameplate > .ear-pollen h2 { display: inline; margin-right: 4pt; }
+  .paper .nameplate > .ear-pollen p { display: inline; }
+  .paper .pollen-rail { display: none; }
+  .paper .dateline, .paper .dateline[data-cat] { padding: 3pt 0; border-top: 3px double var(--ink); border-bottom: 1px solid var(--ink); color: var(--ink); font-size: 9pt; }
+  .paper .dateline .today-meta, .paper .dateline .dateline-words { color: var(--ink); font-size: 9pt; flex-basis: auto; }
+  .paper #paper-date { color: var(--ink); }
+  .paper .meta-from { display: inline; }
+  .paper #today-title, .paper #today-title.is-long, .paper #today-title.is-longest { font-size: 24pt; line-height: 1.08; }
+  .paper .deck { font-size: 12pt; color: var(--ink); }
+  .paper .sheet, .js .paper:not(.is-down) .sheet { display: block; }
+  .js .paper:not(.is-down) .sheet::after { display: none; }
+  .paper .front-now { grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--ink); break-inside: auto; }
+  .paper .lead-figure { grid-column: 1; }
+  .paper .lead-facts { position: relative; grid-column: 2; margin-top: 0; font-size: 9.5pt; color: var(--ink); }
+  .paper .front-now.no-tip .lead-facts { grid-column: 2 / -1; }
+  .paper .tip { position: relative; grid-column: 3 / -1; margin-top: 0; padding-top: 0; border-top: 0; font-size: 9.5pt; color: var(--ink); }
+  .paper .lead-facts::before, .paper .tip::before { content: ""; position: absolute; left: -8px; top: 0; bottom: 0; border-left: 1px solid var(--line-strong); }
+  .paper .front-now .watch { color: var(--ink); font-size: 9.5pt; }
+  .paper .front-now .aqi-num { font-size: 30pt; }
+  .paper .front-now .aqi-chip { font-size: 9.5pt; }
+  .paper .counties.core, .paper .counties.near { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+  .paper .counties .county:nth-child(n) { display: block; grid-row: auto; padding: 4pt 0 6pt; border: 0; border-top: 1px solid var(--ink); break-inside: avoid; }
+  .paper .counties .county:nth-child(n)::before, .paper .counties .county:first-child::before { display: none; }
+  .paper .counties .county:nth-child(even)::before { content: ""; display: block; position: absolute; left: -8px; top: 0; bottom: 0; border-left: 1px solid var(--line-strong); }
+  .paper .county::after { display: none; }
+  .paper .counties .county-more { display: block; margin-top: 3pt; padding-top: 0; border: 0; }
+  .paper .counties .county-more > summary { display: none; }
+  .paper .counties.core .county-head { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: none; column-gap: 8px; align-items: start; }
+  .paper .counties.core .now { display: contents; }
+  .paper .counties.core .aqi-num { grid-column: 1; grid-row: 1 / span 2; }
+  .paper .counties.core .now .aqi-chip { grid-column: 2; grid-row: 2; justify-self: start; }
+  .paper .counties.core .county h3 { grid-column: 2; grid-row: 1; }
+  .paper .counties.core .county-head.no-now h3 { grid-column: 1 / -1; }
+  .paper .counties.core .county-head .now-meta { grid-column: 1 / -1; grid-row: auto; }
+  .paper .counties.core .aqi-num, .paper .counties.near .aqi-num { font-size: 20pt; }
+  .paper .county .aqi-chip { font-size: 9pt; }
+  .paper .county.is-old .aqi-num, .paper .county.is-old .now .aqi-chip { color: var(--ink); }
+  .paper .days div, .paper .burn, .paper .county .watch { font-size: 9.5pt; color: var(--ink); }
+  .paper .nearby > h2, .paper .rail h2, .paper .howto h2 { color: var(--ink); border-color: var(--ink); }
+  .paper .nearby > h2 { break-after: avoid; }
+  .paper .burn { border: 0; }
+  .paper .rail, .js .paper:not(.is-down) .rail { display: grid; position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; margin-top: 8pt; padding: 0; }
+  .paper #hive-status, .paper .from-desk { grid-column: auto; }
+  .paper .rail > section, .js .paper:not(.is-down) .rail > section { padding: 4pt 0; border: 0; border-top: 1px solid var(--ink); }
+  .paper .from-desk { position: relative; }
+  .paper .from-desk::before, .js .paper:not(.is-down) .from-desk::before { content: ""; display: block; position: absolute; left: -8px; top: 4pt; bottom: 4pt; border-left: 1px solid var(--line-strong); }
+  .paper .inside { grid-column: 1 / -1; }
+  .paper .inside ul, .js .paper:not(.is-down) .inside ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+  .paper .inside li, .js .paper:not(.is-down) .inside li { position: static; border: 0; }
+  .paper .inside li::before, .paper .inside li + li::before { display: none; }
+  .paper .inside a, .paper .inside b, .paper .status-meta, .paper .status-line, .paper .desk p, .paper .now-meta, .paper .county .now-meta, .paper .front-now .now-meta, .paper .hist-cap, .paper .params, .paper .county .note-line { color: var(--ink); }
+  .paper .status-line { border-left-color: var(--ink); font-size: 10pt; }
+  .paper .howto, .js .paper.long-day:not(.is-down) .howto { margin-top: 6pt; border-top: 1px solid var(--ink); columns: 2; column-rule: 1px solid var(--line-strong); color: var(--ink); font-size: 9pt; }
+  .paper .howto a { color: var(--ink); }
+  .paper details:not([open]) > summary { display: none; }
+  .paper details::details-content { content-visibility: visible; display: block; }
+  .paper .more-what, .paper .county-more .fold-meta { display: none; }
+  .paper .county-head .has-fold { display: block; }
+}
+
+@media print and (max-width: 559px) {
+  .paper .front-now { grid-template-columns: minmax(0, 1fr); }
+  .paper .lead-figure, .paper .lead-facts, .paper .front-now.no-tip .lead-facts, .paper .tip { grid-column: 1; margin-top: 4pt; }
+  .paper .lead-facts::before, .paper .tip::before { display: none; }
+  .paper .counties.core, .paper .counties.near { grid-template-columns: minmax(0, 1fr); }
+  .paper .counties .county:nth-child(even)::before { display: none; }
+  .paper .rail, .js .paper:not(.is-down) .rail, .paper .inside ul, .js .paper:not(.is-down) .inside ul { grid-template-columns: minmax(0, 1fr); }
+  .paper .from-desk::before, .js .paper:not(.is-down) .from-desk::before { display: none; }
+  .paper .howto, .js .paper.long-day:not(.is-down) .howto { columns: 1; }
 }

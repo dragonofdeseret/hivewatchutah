@@ -2,7 +2,7 @@
 
 **The air we all share.** A calm, plain-language air quality and pollen site for the Wasatch Front (Salt Lake, Davis, Utah and Weber counties, plus Cache, Box Elder, Tooele and Wasatch), at hiveairutah.com. Sister site to [Prepare Utah](https://prepareutah.com/) (household readiness) and [FaultLine Utah](https://faultlineutah.com/) (earthquake hazards by address).
 
-- **Home** (`index.html`): **Today along the Front**, built every hour from Utah DAQ and EPA AirNow: a **Right now along the Front** box (the highest current reading in the four core counties, today's forecast and burn levels, which counties are on watch, and what to do at today's worst level), then a card per county (AQI now, AQI by pollutant, the past 24 hours, 3-day health forecast, burn level, smoke and dust alerts). Below that, the hand-typed Hive Status line and the four guides.
+- **Home** (`index.html`): a newspaper front page, built every 30 minutes from Utah DAQ and EPA AirNow. A headline and deck say how the air is in the four core counties. Under them, a lead (the highest current reading, today's forecast and burn levels, which counties are on watch, and what to do at today's worst level), then a column per county (AQI now, AQI by pollutant, the past 24 hours, 3-day health forecast, burn level, smoke and dust alerts). A rail down the right holds the hand-typed Hive Status line and the four guides.
 - **Air** (`air.html`): the AQI in six colors, health level versus action (burn) level, the burn rules, monitors versus sensors versus models, and which forecast covers each county.
 - **Seasons** (`seasons.html`): winter inversions, summer ozone, wildfire smoke, Great Salt Lake dust, who breathes the worst air, what Utah is doing, and common questions written the way people search.
 - **Pollen** (`pollen.html`): the pollen calendar, local plants, how to read a count, where to find a real one, and when to get care.
@@ -23,7 +23,7 @@ HiveAir Utah is for education only. It is not medical advice, not an official al
 site/                     ← the website; this folder is what gets published
   *.html                  one file per page, edited by hand
   assets/css/style.css    all styling (every color is at the top), plus print styles
-  assets/js/air.js        the Today panel; reads data/air.json and nothing else
+  assets/js/air.js        the home page's live front page; reads data/air.json and nothing else
   assets/js/common.js     mobile menu
   assets/favicon.svg
   assets/img/share.png    link-preview image, drawn by scripts/make_images.swift
@@ -34,7 +34,7 @@ scripts/
   serve.py                local preview server
   make_images.swift       draws site/assets/img/share.png
 .github/workflows/
-  pages.yml               fetches data and publishes site/ on every push and every hour
+  pages.yml               fetches data and publishes site/ on every push and every 30 minutes
   keepalive.yml           weekly; keeps GitHub from switching its backup schedule off
 ```
 
@@ -48,7 +48,7 @@ python3 scripts/fetch_data.py
 python3 scripts/serve.py
 ```
 
-Then open http://localhost:8739. Press Ctrl+C in the terminal to stop it. (FaultLine Utah uses port 8737 and Prepare Utah 8738, so they can all run at once.) Run `fetch_data.py` again whenever you want fresh numbers; without it the Today panel says the readings didn't load.
+Then open http://localhost:8739. Press Ctrl+C in the terminal to stop it. (FaultLine Utah uses port 8737 and Prepare Utah 8738, so they can all run at once.) Run `fetch_data.py` again whenever you want fresh numbers; without it the front page says the readings didn't load.
 
 Unknown addresses show the browser's plain "File not found" locally. GitHub Pages serves `site/404.html` instead; its links start with `/` so it works at any depth.
 
@@ -61,14 +61,16 @@ There is no build step for the pages: edit the HTML file and reload.
 | Hive Status line | `site/index.html` (see below) |
 | Guide pages | `site/air.html`, `seasons.html`, `pollen.html`, `breathe.html` |
 | Pollen calendar | the `<table class="cal">` in `site/pollen.html`; each month cell's `data-lvl` is 0 (none), 1 (some), 2 (in season) or 3 (peak) |
-| Burn-day wording on the county cards | `burnLine()` in `site/assets/js/air.js` |
+| Burn-day wording in the county columns | `burnLine()` in `site/assets/js/air.js` |
 | When the shimmer marker shows, and its "Watch:" words | `watchReasons()` in `site/assets/js/air.js` |
-| The Right now box | `frontSummary()` in `site/assets/js/air.js` |
-| The what-to-do tips in the Right now box | `TIPS` in `site/assets/js/air.js`, copied from the level cards in `site/breathe.html#levels`; change both together |
-| Which counties get cards, and their notes | `COUNTIES` in `scripts/fetch_data.py` |
-| Header menu and footer | repeated in every `site/*.html` file; change all seven together |
+| The front page's headline and deck | `frontHeadline()` in `site/assets/js/air.js` |
+| The lead under them | `frontSummary()` in `site/assets/js/air.js` |
+| The what-to-do tips in the lead | `TIPS` in `site/assets/js/air.js`, copied from the level cards in `site/breathe.html#levels`; change both together |
+| Which counties get columns, and their notes | `COUNTIES` in `scripts/fetch_data.py` |
+| Header menu and footer | repeated in every `site/*.html` file; change all seven together. The home page has its own nameplate above the same menu |
 | Who makes this, data sources, privacy | `site/about.html` |
 | Link-preview image | `scripts/make_images.swift`; run `swift scripts/make_images.swift` from the project root |
+| The front page's layout and type sizes | the rules under `.paper` in `site/assets/css/style.css`; the other pages don't use them |
 
 Each guide cites its sources next to the claim (the small rounded links) and ends with "Checked [date]". When you re-check a page, update that date.
 
@@ -76,7 +78,7 @@ When `style.css` or a `.js` file changes after launch, bump the `?v=` date on it
 
 ## Update the Hive Status line
 
-The live cards cover the AQI and burn levels. The Hive Status line is the desk's hand-typed note on what they don't: pollen season, smoke on its way, a long inversion coming. Nothing fetches it.
+The live columns cover the AQI and burn levels. The Hive Status line is the desk's hand-typed note on what they don't: pollen season, smoke on its way, a long inversion coming. Nothing fetches it.
 
 1. Open `site/index.html` and find `id="hive-status"`.
 2. Replace the text inside `<p class="status-line">`, keeping the shape and the middle dots:
@@ -97,16 +99,16 @@ The live cards cover the AQI and burn levels. The Hive Status line is the desk's
 | [AirNow reportingarea.dat](https://files.airnowtech.org/airnow/today/reportingarea.dat) | Current NowCast AQI per reporting area | Shown unchanged. "Salt Lake City" is the worst of eight Salt Lake and Davis monitors; Ogden is Harrisville; Provo is Lindon and Spanish Fork; no area covers Wasatch or Summit. |
 | [NWS active alerts](https://api.weather.gov/alerts/active?area=UT) | Air Quality Alert, Air Stagnation, Dense Smoke, Blowing Dust and Dust Storm alerts | Filtered to the counties above plus Summit and Morgan. |
 
-GitHub Actions runs it (`pages.yml`) and publishes the result with the site. cron-job.org starts that run every hour; see **The hourly trigger** under Publishing.
+GitHub Actions runs it (`pages.yml`) and publishes the result with the site. cron-job.org starts that run every 30 minutes; see **The 30-minute trigger** under Publishing.
 
 - If one feed is down, that part of the last published `air.json` is reused, and the page says which source is older. Forecast days and alerts that have already passed are dropped, never carried forward.
-- If DAQ is down (or leaves a county out), a card falls back to AirNow's forecast, which has health levels but no burn level, and says so on the card.
+- If DAQ is down (or leaves a county out), a column falls back to AirNow's forecast, which has health levels but no burn level, and says so in the column.
 - If both DAQ and AirNow are down on any run except a push, nothing is published and the previous site stays live. GitHub emails you about the failed run. A push always publishes.
 - If the DAQ or AirNow data is more than 3 hours old (`data_at` in the file), the page shows a "these numbers are N hours old" warning and points to air.utah.gov. A single reading older than 3 hours is dimmed. A tab left open refreshes itself every 15 minutes.
 - Repeated DAQ rows for one county and day are merged, keeping the worse level. Unreadable AirNow rows are skipped, not fatal.
 - GitHub turns off scheduled workflows in public repos after 60 days without a commit. `keepalive.yml` re-enables them weekly. If the warning ever appears and stays, check the cron-job.org job first (its token may have expired), then the repo's **Actions** tab, where **Deploy site** may need re-enabling.
-- A card gets the **shimmer marker** (a gold hexagon whose rings ripple out, after giant honey bees' shimmering) and a "Watch:" line when its county has something to plan around today: AQI now or today's forecast at Unhealthy for Sensitive Groups or worse, a Voluntary or Mandatory action day under the state rule, or an NWS air alert in effect for that county (matched by SAME code). Old readings and unknown words don't trigger it. Alerts in effect get the marker too. The ripple runs twice and stops within 5 seconds, and stays still for anyone who has reduced motion turned on.
-- Each card keeps its county's AirNow readings for the past 24 hours in `history` (from the previous `air.json` plus the new reading), shown as a strip of hourly columns in the AQI colors with a hairline at 100. The strip fills in over the first day after a fresh start, and needs at least two readings to show.
+- A county's column gets the **shimmer marker** (a gold hexagon whose rings ripple out, after giant honey bees' shimmering) and a "Watch:" line when its county has something to plan around today: AQI now or today's forecast at Unhealthy for Sensitive Groups or worse, a Voluntary or Mandatory action day under the state rule, or an NWS air alert in effect for that county (matched by SAME code). Old readings and unknown words don't trigger it. Alerts in effect get the marker too. The ripple runs twice and stops within 5 seconds, and stays still for anyone who has reduced motion turned on.
+- Each column keeps its county's AirNow readings for the past 24 hours in `history` (from the previous `air.json` plus the new reading), shown as a strip of hourly columns in the AQI colors with a hairline at 100. The strip fills in over the first day after a fresh start, and needs at least two readings to show.
 - Pollen has no live data. The only active certified counter (AAAAI National Allergy Bureau, Intermountain's Riverton station) forbids reuse without written permission, so the site links to it.
 
 AirNow's [Data Exchange Guidelines](https://docs.airnowapi.org/docs/DataUseGuidelines.pdf) ask for credit (in every footer), "preliminary" labels (on the home page and footer), official AQI colors (in `style.css`, not themed), unaltered values, and notice to AirNow and the state agency. See the to-do list.
@@ -122,7 +124,7 @@ Text meets WCAG AA contrast on the dark background. Printing switches to a light
 
 ## Publishing (GitHub Pages)
 
-Set up the same way as FaultLine Utah and Prepare Utah. The code lives at https://github.com/prepareutah/hiveairutah (public). **Every push to `main` republishes the site**, and so does the hourly data refresh. Watch deploys under the repo's **Actions** tab.
+Set up the same way as FaultLine Utah and Prepare Utah. The code lives at https://github.com/prepareutah/hiveairutah (public). **Every push to `main` republishes the site**, and so does the data refresh every 30 minutes. Watch deploys under the repo's **Actions** tab.
 
 ```bash
 git add -A
@@ -130,17 +132,17 @@ git commit -m "Describe the change"
 git push
 ```
 
-**The hourly trigger.** GitHub's own schedule isn't reliable enough here: in late October 2026 the `20,50 * * * *` schedule in `pages.yml` ran only every 4 to 7 hours, long enough to set off the site's old-data warning. It stays as a backup, and a free [cron-job.org](https://cron-job.org/) job does the timing by asking GitHub to start **Deploy site**:
+**The 30-minute trigger.** GitHub's own schedule isn't reliable enough here: in late October 2026 the `20,50 * * * *` schedule in `pages.yml` ran only every 4 to 7 hours, long enough to set off the site's old-data warning. It stays as a backup, and a free [cron-job.org](https://cron-job.org/) job does the timing by asking GitHub to start **Deploy site**:
 
 | Setting | Value |
 |---|---|
 | URL | `https://api.github.com/repos/prepareutah/hiveairutah/actions/workflows/pages.yml/dispatches` |
-| Schedule | Every hour |
+| Schedule | Every 30 minutes |
 | Method | `POST` |
 | Headers | `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`, `X-GitHub-Api-Version: 2022-11-28`, `Content-Type: application/json` |
 | Body | `{"ref":"main"}` |
 
-A good request returns `204`. The token is a fine-grained personal access token limited to this one repo with **Actions: write**, which can start runs but can't change code. It lives only in the cron-job.org job, never in this repo. To replace it, [make a new one](https://github.com/settings/personal-access-tokens/new?name=HiveAir+refresh&description=Lets+cron-job.org+start+the+Deploy+site+workflow&target_name=prepareutah&expires_in=366&actions=write), choose **Only select repositories** and this repo, and paste it into the job's `Authorization` header. If the repo is ever renamed, update the job's URL too. AirNow publishes new readings hourly, so hourly is enough; a second job at a different minute would refresh the rest more often.
+A good request returns `204`. The token is a fine-grained personal access token limited to this one repo with **Actions: write**, which can start runs but can't change code. It lives only in the cron-job.org job, never in this repo. To replace it, [make a new one](https://github.com/settings/personal-access-tokens/new?name=HiveAir+refresh&description=Lets+cron-job.org+start+the+Deploy+site+workflow&target_name=prepareutah&expires_in=366&actions=write), choose **Only select repositories** and this repo, and paste it into the job's `Authorization` header. If the repo is ever renamed, update the job's URL too. AirNow publishes new readings hourly, so a new reading reaches the site within about 30 minutes of its release; the readings themselves stay hourly.
 
 **Git and iCloud.** This folder is in iCloud Drive, which corrupts Git's internal files if it syncs them. So Git's database lives outside iCloud at `~/.git-repos/hiveairutah.git`, and the `.git` here is a one-line pointer to it. On another computer, clone from GitHub instead of opening this iCloud folder. iCloud conflict copies (`file 2.html`) are kept out of commits by `.gitignore` and are safe to delete.
 
@@ -164,7 +166,7 @@ The repo's Settings → Pages has Source set to **GitHub Actions**, `hiveairutah
 - [x] Point GoDaddy DNS at GitHub Pages (table above), then turn on Enforce HTTPS (Oct 27, 2026).
 - [x] Move the site from hivewatchutah.com to **hiveairutah.com** (Oct 30, 2026). hivewatchutah.com is no longer this site's; it's free for another project.
 - [x] Rename the GitHub repo and Git database to `hiveairutah` (Oct 30, 2026).
-- [x] Set up the cron-job.org trigger (Oct 30, 2026). Its token expires about Oct 31, 2027; make a new one before then (see **The hourly trigger**).
+- [x] Set up the cron-job.org trigger (Oct 30, 2026). Its token expires about Oct 31, 2027; make a new one before then (see **The 30-minute trigger**).
 - [ ] Set up a contact mailbox (for example `hello@hiveairutah.com`). Add it to About and to `USER_AGENT` in `scripts/fetch_data.py` (NWS asks API users for contact details).
 - [ ] AirNow: register a free AirNow API account (its fact sheet says one is required, even for the files this site reads), sign and return the Data Exchange Guidelines form to dmc@airnowtech.org, and tell Utah DAQ the site uses its data.
 - [ ] Optional: ask AAAAI (nab@aaaai.org) and Intermountain's Southridge allergy clinic for written permission to show the Riverton pollen counts with credit.
@@ -173,7 +175,7 @@ The repo's Settings → Pages has Source set to **GitHub Actions**, `hiveairutah
 **Content**
 - [x] Replace the placeholder founder note on About with a short neutral note (Oct 28, 2026). A first-person note can replace it later; keep personal names out.
 - [x] A share image (`og:image`) for links posted on social media (Oct 28, 2026).
-- [ ] Spanish, human-translated: about 10% of Utahns speak Spanish at home, and almost no Utah air source offers it. Start with the Today panel, the level-by-level actions and the pollen basics.
+- [ ] Spanish, human-translated: about 10% of Utahns speak Spanish at home, and almost no Utah air source offers it. Start with the front page, the level-by-level actions and the pollen basics.
 - [ ] Watch the first winter: confirm DAQ's forecast feed uses the health and action words the script expects (it keeps unknown words as received).
 
 **Re-check on a schedule** (each guide shows its "Checked" date)
@@ -193,10 +195,11 @@ The repo's Settings → Pages has Source set to **GitHub Actions**, `hiveairutah
 - *Seasons and Air:* the ozone symptom list, the sensitive groups for ozone and particles, and the lake-dust and air-toxics health findings (framed as research results, not exposure measurements).
 
 **Questions for Utah DAQ** (the fact-checkers found these unresolved on Oct 24, 2026):
-- Box Elder: its forecast page says DAQ "does not forecast for Box Elder at this time," but the forecast feed (and AirNow) carry Box Elder days. Which is right? The card says both until DAQ answers.
+- Box Elder: its forecast page says DAQ "does not forecast for Box Elder at this time," but the forecast feed (and AirNow) carry Box Elder days. Which is right? The column says both until DAQ answers.
 - The burn rule's area in Utah County: DEQ's page says west of the Wasatch; the rule text says the whole county. And is the exemption for sources above 7,000 feet still in force? (The rule text was read from Cornell's mirror, which shows amendments through 2017; the official eRules page didn't load.)
 - Fines: DEQ's page says up to $150; a 2018 DEQ release says $150 for a first violation and up to $299 a day.
 - Which Severity and Action words the forecast feed uses besides `good` and `unrestricted`, and what an action level means for Wasatch County, which is outside R307-302.
+- Salt Lake County (its health department, not DAQ): is March 1 itself inside the November 1 to March 1 rule? `isWinter()` in `air.js` stops at the end of February, so on March 1 the page drops the county's stricter voluntary-day sentence.
 
 ## Disclaimer
 
